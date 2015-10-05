@@ -55,4 +55,11 @@ convertCoordinate(Line, Column, Pos):-
   Pos is (Line-1) * 10 + Column-1.
 
 
-% 
+% End of game
+	% No more white
+	% No more black
+	% No more possible move
+ end(Board) :- 
+ 
+ noMore(Board, Color) :-
+	% Regarder dans le cours comment parcourir une liste
