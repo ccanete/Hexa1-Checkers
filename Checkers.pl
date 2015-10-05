@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Main function
-% Piece : the piece you're looking for
+% Piece : the piece you are looking for
 play(Piece, X, Y):-
   initBoard(Board),
   findPiece(Board, X, Y, Piece).
@@ -31,8 +31,12 @@ init( Board) :-
 
 
 % Update the list with new position
-move(oldX, oldY, newX, newY) :- 
-% 1 : convert
+move(Board, oldX, oldY, newX, newY, newL) :- 
+convertCoordinate(oldX, oldY, oldPos),
+convertCoordinate(newX, newY, newPos),
+
+
+
 
 % Not functionnal
 movePiece(Board, X, Y, NewX, NewY, NewBoard) :-
@@ -46,5 +50,9 @@ findPiece(Board, X, Y, Piece) :-
 
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
+  Line =< 10,
+  Line => 1,
+  Column => 1,
+  Column =< 10,
   Pos is (Line-1) * 10 + Column.
 
