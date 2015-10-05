@@ -31,10 +31,10 @@ init( Board) :-
 
 
 % Update the list with new position
-move(Board, oldX, oldY, newX, newY, newL) :- 
-convertCoordinate(oldX, oldY, oldPos),
-convertCoordinate(newX, newY, newPos),
-
+move(Board, OldX, OldY, NewX, NewY, NewL) :- 
+	findPiece(Board, OldX, OldY, OldPiece),
+	findPiece(Board, NewX, NewY, NewPiece),
+	OldPiece = not(e),
 
 
 
