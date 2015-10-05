@@ -3,11 +3,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Main function
-% Piece : the piece you are looking for
-play(Piece, X, Y):-
-  initBoard(Board),
-  findPiece(Board, X, Y, Piece).
-  % movePiece(Board, 1, 2, 1, 3, NewBoard).
+% Piece : the piece you're looking for
+play(Board, Piece, X, Y, NewX, NewY, Color):-
+  findPiece(Board, X, Y, PieceToMove),
+  findPiece(Board, NewX, NewY, DestPiece),
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%% Constraints on PieceToMove, DestPiece and Color %%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  PieceLastPlace is e,
+  PieceNewPlace is Color.
+  %movePiece(Board, X, Y, NewX, NewY, PieceLastPlace, PieceNewPlace, NewBoard).
 
 % The initial board (origin box : lower left corner of the board)
 init( Board) :-
@@ -30,23 +35,16 @@ init( Board) :-
 % wp : white pawn
 
 
-% Update the list with new position
-move(Board, OldX, OldY, NewX, NewY, NewL) :- 
-	findPiece(Board, OldX, OldY, OldPiece),
-	findPiece(Board, NewX, NewY, NewPiece),
-	OldPiece = not(e),
-
-
 
 % Not functionnal
-movePiece(Board, X, Y, NewX, NewY, NewBoard) :-
-  convertCoordinate(X, Y, Pos),
-  nth1(Pos, Board, Elem).
+movePiece(Board, X, Y, NewX, NewY, PieceLastPlace, PieceNewPlace, NewBoard) :-
+  convertCoordinate(NewX, NewY, Pos),
+  nth0(Pos, Board, Elem).
 
 % Return the piece at X, Y coordinate in the Board
 findPiece(Board, X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
-  nth1(Pos, Board, Piece).
+  nth0(Pos, Board, Piece).
 
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
@@ -54,5 +52,7 @@ convertCoordinate(Line, Column, Pos):-
   Line => 1,
   Column => 1,
   Column =< 10,
-  Pos is (Line-1) * 10 + Column.
+  Pos is (Line-1) * 10 + Column-1.
 
+
+% 
