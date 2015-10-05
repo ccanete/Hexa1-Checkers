@@ -42,7 +42,3 @@ findPiece(Board, X, Y, Piece) :-
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
   Pos is (Line-1) * 10 + Column.
-||||||| merged common ancestors
-% The initial board
-init(Board) :-
-      Board = b(n,x,n,x,n,x,n,x,x,n,x,n,x,n,x,n,n,x,n,x,n,x,n,x,e,n,e,n,e,n,e,n,n,e,n,e,n,e,n,e,o,n,o,n,o,n,o,n,n,o,n,o,n,o,n,o,o,n,o,n,o,n,o,n).
