@@ -9,9 +9,25 @@ play(Piece, X, Y):-
   findPiece(Board, X, Y, Piece).
   % movePiece(Board, 1, 2, 1, 3, NewBoard).
 
-% Get the initial board, return Board
-initBoard(Board) :-
-  Board = [n,x,n,x,n,x,n,x,x,n,x,n,x,n,x,n,n,x,n,x,n,x,n,x,e,n,e,n,e,n,e,n,n,e,n,e,n,e,n,e,o,n,o,n,o,n,o,n,n,o,n,o,n,o,n,o,o,n,o,n,o,n,o,n].
+% The initial board (origin box : lower left corner of the board)
+init( Board) :-
+      Board = b(wp,n,wp,n,wp,n,wp,n,wp,n,
+				n,wp,n,wp,n,wp,n,wp,n,wp,
+				wp,n,wp,n,wp,n,wp,n,wp,n,
+				n,wp,n,wp,n,wp,n,wp,n,wp,
+				e,n,e,n,e,n,e,n,e,n,
+				n,e,n,e,n,e,n,e,n,e,
+				bp,n,bp,n,bp,n,bp,n,bp,n,
+				n,bp,n,bp,n,bp,n,bp,n,bp,
+				bp,n,bp,n,bp,n,bp,n,bp,n,
+				n,bp,n,bp,n,bp,n,bp,n,bp).
+
+% n : null (unaccessible box)
+% e : free box
+% bq : black queen
+% wq : white queen
+% bp : black pawn
+% wp : white pawn
 
 % Not functionnal
 movePiece(Board, X, Y, NewX, NewY, NewBoard) :-
@@ -26,3 +42,7 @@ findPiece(Board, X, Y, Piece) :-
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
   Pos is (Line-1) * 10 + Column.
+||||||| merged common ancestors
+% The initial board
+init(Board) :-
+      Board = b(n,x,n,x,n,x,n,x,x,n,x,n,x,n,x,n,n,x,n,x,n,x,n,x,e,n,e,n,e,n,e,n,n,e,n,e,n,e,n,e,o,n,o,n,o,n,o,n,n,o,n,o,n,o,n,o,o,n,o,n,o,n,o,n).
