@@ -21,3 +21,7 @@ init( Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
+
+% Update the list with new position
+move(oldX, oldY, newX, newY) :- 
+% 1 : convert
