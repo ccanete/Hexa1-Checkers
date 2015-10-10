@@ -60,27 +60,16 @@ convertCoordinate(Line, Column, Pos):-
 % TODO: Convert id (wp, bp, etc) to graphic element X, O etc
 printBoard(Board) :-
   write('+----------------------------+'),nl,
-  printLine(Board, 1),
-  printGrid,
-  printLine(Board, 2),
-  printGrid,
-  printLine(Board, 3),
-  printGrid,
-  printLine(Board, 4),
-  printGrid,
-  printLine(Board, 5),
-  printGrid,
-  printLine(Board, 6),
-  printGrid,
-  printLine(Board, 7),
-  printGrid,
-  printLine(Board, 8),
-  printGrid,
-  printLine(Board, 9),
-  printGrid,
-  printLine(Board, 10),
-  write('+----------------------------+'),nl.
+  printBoard(Board, 1).
 
+printBoard(Board, Line) :-
+  printLine(Board, Line),
+  printGrid,
+  NextLine is Line + 1,
+  printBoard(Board, NextLine).
+
+printBoard( _, 11) :-
+  write('+----------------------------+'),nl,!.
 
 printGrid :-
   write('|--+--+--+--+--+--+--+--+--+--|'), nl.
