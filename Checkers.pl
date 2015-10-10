@@ -3,20 +3,28 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Main function
+initGame:-
+  initBoard(Board),
+  printBoard(Board),
+  %nl,
+  %write('Please choose a piece to move'),nl.
+  play(Board, 4, 2, 5, 1, 'white').
+
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
-  initBoard(Board),
   % Get the piece to move
   findPiece(Board, X, Y, PieceToMove),
+  nl, write(PieceToMove), nl,
   % Get the piece at the destination place
   findPiece(Board, NewX, NewY, DestPiece),
+  nl, write(DestPiece), nl,
+  %processMove(Board, X, Y, newX, newY, newBoard),
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%% Constraints on PieceToMove, DestPiece and Color %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %PieceLastPlace is e,
   %PieceNewPlace is Color,
-  printBoard(Board).
-  %movePiece(Board, X, Y, NewX, NewY, PieceLastPlace, PieceNewPlace, NewBoard).
+  printBoard(newBoard).
 
 % The initial board (origin box : lower left corner of the board)
 initBoard(Board) :-
@@ -44,6 +52,7 @@ movePiece(Board, X, Y, NewX, NewY, PieceLastPlace, PieceNewPlace, NewBoard) :-
   nth0(Pos, Board, Elem).
 
 % Return the piece at X, Y coordinate in the Board
+% TODO: Change find to get
 findPiece(Board, X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
   nth0(Pos, Board, Piece).
