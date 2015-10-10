@@ -48,6 +48,8 @@ findPiece(Board, X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
   nth0(Pos, Board, Piece).
 
+%% === Helpers === %%
+
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
   Line =< 10,
@@ -56,37 +58,52 @@ convertCoordinate(Line, Column, Pos):-
   Column =< 10,
   Pos is (Line-1) * 10 + Column-1.
 
-% TODO: Reccursiv printBoard
-% TODO: Convert id (wp, bp, etc) to graphic element X, O etc
+% Convert pice code to graphic symbol
+pieceToSymbol('nl', '  ').
+pieceToSymbol('em', '  ').
+pieceToSymbol('bq', 'B ').
+pieceToSymbol('wq', 'W ').
+pieceToSymbol('bp', 'b ').
+pieceToSymbol('wp', 'w ').
+pieceToSymbol(Piece, '# ').
+
+%% === Print functions === %%
+
+% Start printing the board recursivly (loop style)
 printBoard(Board) :-
   write('+----------------------------+'),nl,
   printBoard(Board, 1).
-
+% Calls the PrintLine function and iterates
 printBoard(Board, Line) :-
   printLine(Board, Line),
   printGrid,
   NextLine is Line + 1,
   printBoard(Board, NextLine).
-
+% End of the loop
 printBoard( _, 11) :-
   write('+----------------------------+'),nl,!.
 
+% Print a seperation line
 printGrid :-
   write('|--+--+--+--+--+--+--+--+--+--|'), nl.
 
+% Start printing a line recursivly (loop style)
 printLine(Board, Line) :-
    write('|'),
    printLine(Board, Line, 1).
-
-printLine( _, _, 11) :- nl,!.
-
+% Print a piece of the line then recursiv call
 printLine(Board, Line, Col) :-
   findPiece(Board, Line, Col, Piece),
-  write(Piece),
+  pieceToSymbol(Piece, Symbol),
+  write(Symbol),
   write('|'),
   NextCol is Col + 1,
   printLine(Board, Line, NextCol).
+% End of the loop
+printLine( _, _, 11) :- nl,!.
 
+%% === End of the Game === %%
+%% TODO
 % End of game
 	% No more white
 	% No more black
