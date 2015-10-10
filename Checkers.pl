@@ -97,3 +97,12 @@ printLine(Board, Line, Col) :-
   write('|'),
   NextCol is Col + 1,
   printLine(Board, Line, NextCol).
+
+% End of game
+	% No more white
+	% No more black
+	% No more possible move
+ %end(Board) :-
+
+ %noMore(Board, Color) :-
+	% Regarder dans le cours comment parcourir une liste
