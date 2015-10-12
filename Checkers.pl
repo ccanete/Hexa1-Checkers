@@ -7,12 +7,14 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 1, 1, 2, 10, white).
+
+  play(Board, 1, 1, 2, 10, white),
+  play(Board, 3, 7, 3, 5, black).
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
-  processMove(Board, X, Y, NewX, NewY, NewBoard),
+  processEat(Board, X, Y, NewX, NewY, NewBoard),
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%% Constraints on PieceToMove, DestPiece and Color %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,6 +64,14 @@ becameQueen(Board, NewBoard, NewX, NewY) :-
 convertQueen(bp,bq).
 convertQueen(wp,wq).
 
+% Not functionnal
+processEat(Board, X, Y, NewX, NewY, NewBoard) :-
+  processMove(Board, X, Y, NewX, NewY, TempBoard),
+  XEaten is (X+NewX)/2,
+  YEaten is (Y+NewY)/2,
+  convertCoordinate(XEaten, YEaten, Pos),
+  replace(TempBoard, Pos, em, NewBoard).
+  
 % Return the piece at X, Y coordinate in the Board
 getPiece(Board, X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
