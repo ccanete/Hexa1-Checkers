@@ -22,7 +22,7 @@ play(Board, X, Y, NewX, NewY, Color):-
   %checkEat(Board, X, Y, NewX, NewY),
   processEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
   printBoard(BoardAfterEat),
-  checkQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
+  doQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
   printBoard(BoardAfterQueen),
   continuePlaying(BoardAfterQueen),
   write('Play again !').
@@ -55,6 +55,7 @@ continuePlaying(Board, white):-
   member(wp, Board),!;member(wq, Board),!.
 continuePlaying(Board, black):-
   member(bp, Board),!;member(bq, Board),!.
+
 % Process Move after having check rules
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
@@ -63,22 +64,29 @@ processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
 
-% Check if current pawn should be converted to queen
-checkQueen(Board, NewBoard, NewX, NewY):-
-  NewY = 1,
+%% DO QUEEN %%
+doQueen(Board, NewBoard, NewX, NewY):-
+  %NewBoard is Board,
+  checkQueen(Board, NewX, NewY),
+  becameQueen(Board, NewBoard, NewX, NewY),!.
+doQueen(Board, Board, _, _).
+
+% params :
+checkQueen(Board, NewX, NewY):-
   getPiece(Board, NewX, NewY, Piece),
-  Piece = bp,
-  becameQueen(Board, NewBoard, NewX, NewY).
-checkQueen(Board, NewBoard, NewX, NewY):-
-  NewY = 10,
-  getPiece(Board, NewX, NewY, Piece),
-  Piece = wp,
-  becameQueen(Board, NewBoard, NewX, NewY).
-checkQueen(Board, Board, _, _).
+  checkQueen(Board, NewX, NewY, Piece).
+checkQueen(Board, NewX, NewY, bp):-
+    NewY = 1.
+checkQueen(Board, NewX, NewY, wp):-
+    NewY = 10.
 
 % Predicate became queen (call it between turns not replays)
 becameQueen(Board, NewBoard, NewX, NewY) :-
-  convertCoordinate(NewX, NewY, NewPos), getPiece(Board, NewX, NewY, P), convertQueen(P, Q), replace(Board, NewPos, Q, NewBoard).
+  convertCoordinate(NewX, NewY, NewPos),
+  getPiece(Board, NewX, NewY, P),
+  convertQueen(P, Q),
+  replace(Board, NewPos, Q, NewBoard).
+becameQueen(Board, Board, _, _).
 
 %Convert to queen
 convertQueen(bp,bq).
