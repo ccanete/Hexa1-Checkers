@@ -7,11 +7,12 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 4, 10, 5, 11, 'white').
+  play(Board, 4, 10, 5, 9, 'white'),
+  play(Board, 5, 9, 4, 10, 'white').
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
-  %checkMove(Board, X, Y, NewX, NewY),
+  checkMove(Board, X, Y, NewX, NewY, Color),
   processMove(Board, X, Y, NewX, NewY, NewBoard),
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%% Constraints on PieceToMove, DestPiece and Color %%%%
@@ -39,19 +40,66 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
+checkMove(Board, X, Y, NewX, NewY, 'white'):-
+  findPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X+1,
+  OldY is Y+1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
+checkMove(Board, X, Y, NewX, NewY, 'white'):-
+  findPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X+1,
+  OldY is Y-1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
+checkMove(Board, X, Y, NewX, NewY, 'black'):-
+  findPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  NewX == X-1,
+  NewY == Y+1;NewY == Y-1.
+
+checkMove(Board, X, Y, NewX, NewY, 'black'):-
+  findPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  NewX == X-1,
+  NewY == Y+1;NewY == Y-1.
+
 
 % Not functionnal
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
-  write('Pos : '),
-  write(Pos), nl,
+  %write('Pos : '),
+  %write(Pos), nl,
   convertCoordinate(NewX, NewY, NewPos),
-  write('NewPos : '),
-  write(NewPos), nl,
+  %write('NewPos : '),
+  %write(NewPos), nl,
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
 
+%processMove(Board, X, Y, NewX, NewY, NewBoard) :- 
+ % write('wrong position'),
+  %false.
 
 % Return the piece at X, Y coordinate in the Board
 % TODO: Change find to get
@@ -68,16 +116,17 @@ replace(L, _, _, L).
 
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
-  write('Line : '),
-  write(Line), nl,
-  write('Column : '),
-  write(Column), nl,
+  %write('Line : '),
+  %write(Line), nl,
+  %write('Column : '),
+  %write(Column), nl,
 
   Line =< 10,
   Line >= 1,
   Column >= 1,
   Column =< 10,
   Pos is (Line-1) * 10 + Column-1.
+
 
 % Convert pice code to graphic symbol
 pieceToSymbol('nl', '  ').
