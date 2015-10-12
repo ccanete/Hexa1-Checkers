@@ -13,9 +13,9 @@ initGame:-
   printBoard(Board),
   play(Board, 1, 1, 2, 10, white).
 
-% Piece : the piece you're looking for
+% Piece : the piece you are looking for
 play(Board, X, Y, NewX, NewY, Color):-
-  %checkMove(Board, X, Y, NewX, NewY),
+  checkMove(Board, X, Y, NewX, NewY, Color),
   processMove(Board, X, Y, NewX, NewY, BoardAfterMove),
   printBoard(BoardAfterMove),
   % BE CAREFULL, IF NO EAT WHAT BOARD SHOULD BE USED ?
@@ -46,6 +46,62 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
+checkMove(Board, X, Y, NewX, NewY, white):-
+  getPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X+1,
+  OldY is Y+1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
+checkMove(Board, X, Y, NewX, NewY, white):-
+  getPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X+1,
+  OldY is Y-1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
+checkMove(Board, X, Y, NewX, NewY, black):-
+  getPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X-1,
+  OldY is Y-1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
+checkMove(Board, X, Y, NewX, NewY, black):-
+  getPiece(Board, NewX, NewY, Piece),
+  write('piece : '),
+  write(Piece),nl,
+  Piece == em,
+  OldX is X-1,
+  OldY is Y+1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
+
 
 % Check if a player has won
 continuePlaying(Board):-
@@ -59,7 +115,11 @@ continuePlaying(Board, black):-
 % Process Move after having check rules
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
+  %write('Pos : '),
+  %write(Pos), nl,
   convertCoordinate(NewX, NewY, NewPos),
+  %write('NewPos : '),
+  %write(NewPos), nl,
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
@@ -112,12 +172,17 @@ replace([H|T], I, X, [H|R]):- I > -1, NI is I-1, replace(T, NI, X, R), !.
 replace(L, _, _, L).
 
 % Convert coordinate to array index (index starts at 1)
-convertCoordinate(Column, Line, Pos):-
+convertCoordinate(Line, Column, Pos):-
+  %write('Line : '),
+  %write(Line), nl,
+  %write('Column : '),
+  %write(Column), nl,
   Line =< 10,
   Line >= 1,
   Column >= 1,
   Column =< 10,
   Pos is (Line-1) * 10 + Column-1.
+
 
 % Convert pice code to graphic symbol
 pieceToSymbol(nl, '  ').
@@ -154,7 +219,7 @@ printLine(Board, Line) :-
    printLine(Board, Line, 1).
 % Print a piece of the line then recursiv call
 printLine(Board, Line, Col) :-
-  getPiece(Board, Col, Line, Piece),
+  getPiece(Board, Line, Col, Piece),
   pieceToSymbol(Piece, Symbol),
   write(Symbol),
   write('|'),
