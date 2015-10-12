@@ -7,21 +7,25 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 4, 2, 5, 1, white).
+  play(Board, 4, 2, 2, 4, white).
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
-  processMove(Board, X, Y, NewX, NewY, NewBoard),
-  printBoard(NewBoard),
-  continuePlaying(NewBoard),
+  processMove(Board, X, Y, NewX, NewY, BoardAfterMove),
+  printBoard(BoardAfterMove),
+  % BE CAREFULL, IF NO EAT WHAT BOARD SHOULD BE USED ?
+  %checkEat(Board, X, Y, NewX, NewY),
+  processEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
+  printBoard(BoardAfterEat),
+  continuePlaying(BoardAfterEat),
   write('Play again !').
 
 % The initial board (origin box : lower left corner of the board)
 initBoard(Board) :-
       Board = [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-    			  	 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-				       wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
+      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
+      				 wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
       				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
       				 em,nl,em,nl,em,nl,em,nl,em,nl,
       				 nl,em,nl,em,nl,em,nl,em,nl,em,
@@ -54,6 +58,12 @@ processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
 
+% Not functionnal
+processEat(Board, X, Y, NewX, NewY, NewBoard) :-
+  XEaten is (X+NewX)/2,
+  YEaten is (Y+NewY)/2,
+  convertCoordinate(XEaten, YEaten, Pos),
+  replace(Board, Pos, em, NewBoard).
 
 % Return the piece at X, Y coordinate in the Board
 % TODO: Change find to get
