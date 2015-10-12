@@ -9,7 +9,7 @@ initGame:-
   printBoard(Board),
   play(Board, 4, 2, 5, 1, 'white').
 
-% Piece : the piece you're looking for
+% Piece : the piece you are looking for
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
   processMove(Board, X, Y, NewX, NewY, NewBoard),
