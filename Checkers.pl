@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Prolog game                       %
+%           Checkers game             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Main function
@@ -7,31 +7,34 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 4, 2, 5, 1, 'white').
+
+  play(Board, 1, 1, 2, 10, white),
+  play(Board, 3, 7, 3, 5, black).
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
-  processMove(Board, X, Y, NewX, NewY, NewBoard),
+  processEat(Board, X, Y, NewX, NewY, NewBoard),
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%% Constraints on PieceToMove, DestPiece and Color %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %PieceLastPlace is e,
   %PieceNewPlace is Color,
-  printBoard(NewBoard).
+  checkQueen(NewBoard, QNewBoard, NewX, NewY),
+  printBoard(QNewBoard).
 
 % The initial board (origin box : lower left corner of the board)
 initBoard(Board) :-
       Board = [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-    			  	 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-				       wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-      				 em,nl,em,nl,em,nl,em,nl,em,nl,
-      				 nl,em,nl,em,nl,em,nl,em,nl,em,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp].
+               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
+               wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
+               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
+               em,nl,em,nl,em,nl,em,nl,em,nl,
+               nl,em,nl,em,nl,em,nl,em,nl,em,
+               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
+               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
+               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
+               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp].
 
 % nl : null (unaccessible box)
 % em : free box
@@ -40,7 +43,7 @@ initBoard(Board) :-
 % bp : black pawn
 % wp : white pawn
 
-% Not functionnal
+% Process Move after having check rules
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
   convertCoordinate(NewX, NewY, NewPos),
@@ -48,10 +51,29 @@ processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
 
+% Check if current pawn should be converted to queen
+checkQueen(Board, NewBoard, NewX, NewY):- NewY = 1, getPiece(Board, NewX, NewY, Piece), Piece = bp, becameQueen(Board, NewBoard, NewX, NewY).
+checkQueen(Board, NewBoard, NewX, NewY):- NewY = 10, getPiece(Board, NewX, NewY, Piece), Piece = wp, becameQueen(Board, NewBoard, NewX, NewY).
+checkQueen(Board, Board, _, _).
 
+% Predicate became queen (call it between turns not replays)
+becameQueen(Board, NewBoard, NewX, NewY) :- 
+  convertCoordinate(NewX, NewY, NewPos), getPiece(Board, NewX, NewY, P), convertQueen(P, Q), replace(Board, NewPos, Q, NewBoard).
+
+%Convert to queen
+convertQueen(bp,bq).
+convertQueen(wp,wq).
+
+% Not functionnal
+processEat(Board, X, Y, NewX, NewY, NewBoard) :-
+  processMove(Board, X, Y, NewX, NewY, TempBoard),
+  XEaten is (X+NewX)/2,
+  YEaten is (Y+NewY)/2,
+  convertCoordinate(XEaten, YEaten, Pos),
+  replace(TempBoard, Pos, em, NewBoard).
+  
 % Return the piece at X, Y coordinate in the Board
-% TODO: Change find to get
-findPiece(Board, X, Y, Piece) :-
+getPiece(Board, X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
   nth0(Pos, Board, Piece).
 
@@ -63,7 +85,7 @@ replace([H|T], I, X, [H|R]):- I > -1, NI is I-1, replace(T, NI, X, R), !.
 replace(L, _, _, L).
 
 % Convert coordinate to array index (index starts at 1)
-convertCoordinate(Line, Column, Pos):-
+convertCoordinate(Column, Line, Pos):-
   Line =< 10,
   Line >= 1,
   Column >= 1,
@@ -84,7 +106,7 @@ pieceToSymbol(Piece, '# ').
 % Start printing the board recursivly (loop style)
 printBoard(Board) :-
   write('+----------------------------+'),nl,
-  printBoard(Board, 1).
+  printBoard(Board, 1), !.
 % Calls the PrintLine function and iterates
 printBoard(Board, Line) :-
   printLine(Board, Line),
@@ -105,7 +127,7 @@ printLine(Board, Line) :-
    printLine(Board, Line, 1).
 % Print a piece of the line then recursiv call
 printLine(Board, Line, Col) :-
-  findPiece(Board, Line, Col, Piece),
+  getPiece(Board, Col, Line, Piece),
   pieceToSymbol(Piece, Symbol),
   write(Symbol),
   write('|'),
@@ -117,10 +139,10 @@ printLine( _, _, 11) :- nl,!.
 %% === End of the Game === %%
 %% TODO
 % End of game
-	% No more white
-	% No more black
-	% No more possible move
+  % No more white
+  % No more black
+  % No more possible move
  %end(Board) :-
 
  %noMore(Board, Color) :-
-	% Regarder dans le cours comment parcourir une liste
+  % Regarder dans le cours comment parcourir une liste
