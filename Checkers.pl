@@ -90,7 +90,7 @@ pieceToSymbol(Piece, '# ').
 % Start printing the board recursivly (loop style)
 printBoard(Board) :-
   write('+----------------------------+'),nl,
-  printBoard(Board, 1).
+  printBoard(Board, 1),!.
 % Calls the PrintLine function and iterates
 printBoard(Board, Line) :-
   printLine(Board, Line),
