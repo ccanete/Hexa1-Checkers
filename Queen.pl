@@ -25,3 +25,4 @@ becameQueen(Board, Board, _, _).
 %Convert to queen
 convertQueen(bp,bq).
 convertQueen(wp,wq).
+
