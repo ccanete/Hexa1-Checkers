@@ -7,7 +7,7 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 4, 2, 5, 1, 'white').
+  play(Board, 4, 10, 5, 11, 'white').
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
@@ -43,7 +43,11 @@ initBoard(Board) :-
 % Not functionnal
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
+  write('Pos : '),
+  write(Pos), nl,
   convertCoordinate(NewX, NewY, NewPos),
+  write('NewPos : '),
+  write(NewPos), nl,
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
@@ -64,6 +68,11 @@ replace(L, _, _, L).
 
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
+  write('Line : '),
+  write(Line), nl,
+  write('Column : '),
+  write(Column), nl,
+
   Line =< 10,
   Line >= 1,
   Column >= 1,
