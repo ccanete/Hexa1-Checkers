@@ -2,6 +2,22 @@
 %           Checkers game             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+dynamic board/1.
+board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
+               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
+               wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
+               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
+               em,nl,em,nl,em,nl,em,nl,em,nl,
+               nl,em,nl,em,nl,em,nl,em,nl,em,
+               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
+               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
+               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
+               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
+
+%% Modules
+:-['Queen.pl'].
+
+
 % Main function
 initGame:-
   initBoard(Board),
@@ -11,9 +27,13 @@ initGame:-
   play(Board, 4, 2, 2, 4, white),
   write('--- GAME 2 ---'),nl,
   printBoard(Board),
-  play(Board, 1, 1, 2, 10, white).
+  play(Board, 1, 1, 2, 10, white),
+  write('--- Dynamic board test ---'),
+  board(X),
+  printBoard(X).
 
 % Piece : the piece you're looking for
+%play(Board, X, Y, NewX, NewY, Color):- gameover, !.
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
   processMove(Board, X, Y, NewX, NewY, BoardAfterMove),
@@ -63,34 +83,6 @@ processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard).
-
-%% DO QUEEN %%
-doQueen(Board, NewBoard, NewX, NewY):-
-  %NewBoard is Board,
-  checkQueen(Board, NewX, NewY),
-  becameQueen(Board, NewBoard, NewX, NewY),!.
-doQueen(Board, Board, _, _).
-
-% params :
-checkQueen(Board, NewX, NewY):-
-  getPiece(Board, NewX, NewY, Piece),
-  checkQueen(Board, NewX, NewY, Piece).
-checkQueen(Board, NewX, NewY, bp):-
-    NewY = 1.
-checkQueen(Board, NewX, NewY, wp):-
-    NewY = 10.
-
-% Predicate became queen (call it between turns not replays)
-becameQueen(Board, NewBoard, NewX, NewY) :-
-  convertCoordinate(NewX, NewY, NewPos),
-  getPiece(Board, NewX, NewY, P),
-  convertQueen(P, Q),
-  replace(Board, NewPos, Q, NewBoard).
-becameQueen(Board, Board, _, _).
-
-%Convert to queen
-convertQueen(bp,bq).
-convertQueen(wp,wq).
 
 % Not functionnal
 processEat(Board, X, Y, NewX, NewY, NewBoard) :-
