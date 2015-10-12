@@ -6,20 +6,20 @@
 initGame:-
   initBoard(Board),
   write('Game'),nl,
-  printBoard(Board),
-  play(Board, 4, 10, 5, 9, 'white'),
-  play(Board, 5, 9, 4, 10, 'white').
+  %printBoard(Board),
+  %play(Board, 4, 10, 5, 9, 'white'),
+  play(Board, 7, 9, 5, 9, black).
 
 % Piece : the piece you are looking for
 play(Board, X, Y, NewX, NewY, Color):-
   checkMove(Board, X, Y, NewX, NewY, Color),
-  processMove(Board, X, Y, NewX, NewY, NewBoard),
+  processMove(Board, X, Y, NewX, NewY, NewBoard).
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%% Constraints on PieceToMove, DestPiece and Color %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %PieceLastPlace is e,
   %PieceNewPlace is Color,
-  printBoard(NewBoard).
+  %printBoard(NewBoard).
 
 % The initial board (origin box : lower left corner of the board)
 initBoard(Board) :-
@@ -40,7 +40,7 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
-checkMove(Board, X, Y, NewX, NewY, 'white'):-
+checkMove(Board, X, Y, NewX, NewY, white):-
   findPiece(Board, NewX, NewY, Piece),
   write('piece : '),
   write(Piece),nl,
@@ -54,7 +54,7 @@ checkMove(Board, X, Y, NewX, NewY, 'white'):-
   NewX == OldX,
   NewY == OldY.
 
-checkMove(Board, X, Y, NewX, NewY, 'white'):-
+checkMove(Board, X, Y, NewX, NewY, white):-
   findPiece(Board, NewX, NewY, Piece),
   write('piece : '),
   write(Piece),nl,
@@ -68,21 +68,33 @@ checkMove(Board, X, Y, NewX, NewY, 'white'):-
   NewX == OldX,
   NewY == OldY.
 
-checkMove(Board, X, Y, NewX, NewY, 'black'):-
+checkMove(Board, X, Y, NewX, NewY, black):-
   findPiece(Board, NewX, NewY, Piece),
   write('piece : '),
   write(Piece),nl,
   Piece == em,
-  NewX == X-1,
-  NewY == Y+1;NewY == Y-1.
+  OldX is X-1,
+  OldY is Y-1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
 
-checkMove(Board, X, Y, NewX, NewY, 'black'):-
+checkMove(Board, X, Y, NewX, NewY, black):-
   findPiece(Board, NewX, NewY, Piece),
   write('piece : '),
   write(Piece),nl,
   Piece == em,
-  NewX == X-1,
-  NewY == Y+1;NewY == Y-1.
+  OldX is X-1,
+  OldY is Y+1,
+  write('X : '),
+  write(OldX),nl,
+  write('Y : '),
+  write(OldY),nl,
+  NewX == OldX,
+  NewY == OldY.
 
 
 % Not functionnal
