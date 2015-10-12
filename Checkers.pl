@@ -23,11 +23,12 @@ initGame:-
   initBoard(Board),
   %% test eat and move
   write('--- GAME 1 ---'),nl,
-  %% printBoard(Board),
-  %% play(Board, 4, 2, 2, 4, white),
-  %% write('--- GAME 2 ---'),nl,
-  %% printBoard(Board),
-  %% play(Board, 1, 1, 2, 10, white).
+  printBoard(Board),
+  play(Board, 4, 2, 2, 4, white),
+  write('--- GAME 2 ---'),nl,
+  printBoard(Board),
+  play(Board, 1, 1, 2, 10, white),
+  write('--- Dynamic board test ---'),
   board(X),
   printBoard(X).
 
