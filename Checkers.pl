@@ -16,6 +16,8 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 
 %% Modules
 :-['Queen.pl'].
+:-['DrawBoard.pl'].
+:-['Action.pl'].
 
 
 % Main function
@@ -132,21 +134,6 @@ continuePlaying(Board, white):-
 continuePlaying(Board, black):-
   member(bp, Board),!;member(bq, Board),!.
 
-% Process Move after having check rules
-processMove(Board, X, Y, NewX, NewY, NewBoard) :-
-  convertCoordinate(X, Y, Pos),
-  %write('Pos : '),
-  %write(Pos), nl,
-  convertCoordinate(NewX, NewY, NewPos),
-  %write('NewPos : '),
-  %write(NewPos), nl,
-  nth0(Pos, Board, Piece),
-  replace(Board, Pos, em, TempBoard),
-  replace(TempBoard, NewPos, Piece, NewBoard).
-
-%Convert to queen
-convertQueen(bp,bq).
-convertQueen(wp,wq).
 
 isQueen(bq).
 isQueen(wq).
@@ -245,12 +232,7 @@ noPieceAt(NextPos, Board) :- nth0(NextPos, Board, NextCase), isEmpty(NextCase).
 checkFreeWayToEat(Board, LandingPosCandidate) :-
   findPiece(Board, LandingPosCandidate, NextToEatenCase), isEmpty(NextToEatenCase).
  
-% Not functionnal
-processEat(Board, X, Y, NewX, NewY, NewBoard) :-
-  XEaten is (X+NewX)/2,
-  YEaten is (Y+NewY)/2,
-  convertCoordinate(XEaten, YEaten, Pos),
-  replace(Board, Pos, em, NewBoard).
+
 
 % Return the piece at X, Y coordinate in the Board
 getPiece(Board, X, Y, Piece) :-
@@ -295,41 +277,6 @@ pieceToSymbol(wq, 'W ').
 pieceToSymbol(bp, 'b ').
 pieceToSymbol(wp, 'w ').
 pieceToSymbol(Piece, '# ').
-
-%% === Print functions === %%
-
-% Start printing the board recursivly (loop style)
-printBoard(Board) :-
-  write('+----------------------------+'),nl,
-  printBoard(Board, 1), !.
-% Calls the PrintLine function and iterates
-printBoard(Board, Line) :-
-  printLine(Board, Line),
-  printGrid,
-  NextLine is Line + 1,
-  printBoard(Board, NextLine).
-% End of the loop
-printBoard( _, 11) :-
-  write('+----------------------------+'),nl,!.
-
-% Print a seperation line
-printGrid :-
-  write('|--+--+--+--+--+--+--+--+--+--|'), nl.
-
-% Start printing a line recursivly (loop style)
-printLine(Board, Line) :-
-   write('|'),
-   printLine(Board, Line, 1).
-% Print a piece of the line then recursiv call
-printLine(Board, Line, Col) :-
-  getPiece(Board, Line, Col, Piece),
-  pieceToSymbol(Piece, Symbol),
-  write(Symbol),
-  write('|'),
-  NextCol is Col + 1,
-  printLine(Board, Line, NextCol).
-% End of the loop
-printLine( _, _, 11) :- nl,!.
 
 %% === End of the Game === %%
 %% TODO
