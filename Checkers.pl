@@ -7,18 +7,15 @@ initGame:-
   initBoard(Board),
   write('Game'),nl,
   printBoard(Board),
-  play(Board, 4, 2, 5, 1, 'white').
+  play(Board, 4, 2, 5, 1, white).
 
 % Piece : the piece you're looking for
 play(Board, X, Y, NewX, NewY, Color):-
   %checkMove(Board, X, Y, NewX, NewY),
   processMove(Board, X, Y, NewX, NewY, NewBoard),
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%% Constraints on PieceToMove, DestPiece and Color %%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %PieceLastPlace is e,
-  %PieceNewPlace is Color,
-  printBoard(NewBoard).
+  printBoard(NewBoard),
+  continuePlaying(NewBoard),
+  write('Play again !').
 
 % The initial board (origin box : lower left corner of the board)
 initBoard(Board) :-
@@ -39,6 +36,15 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
+
+% Check if a player has won
+continuePlaying(Board):-
+  continuePlaying(Board, white),
+  continuePlaying(Board, black).
+continuePlaying(Board, white):-
+  member(wp, Board),!;member(wq, Board),!.
+continuePlaying(Board, black):-
+  member(bp, Board),!;member(bq, Board),!.
 
 % Not functionnal
 processMove(Board, X, Y, NewX, NewY, NewBoard) :-
@@ -71,12 +77,12 @@ convertCoordinate(Line, Column, Pos):-
   Pos is (Line-1) * 10 + Column-1.
 
 % Convert pice code to graphic symbol
-pieceToSymbol('nl', '  ').
-pieceToSymbol('em', '  ').
-pieceToSymbol('bq', 'B ').
-pieceToSymbol('wq', 'W ').
-pieceToSymbol('bp', 'b ').
-pieceToSymbol('wp', 'w ').
+pieceToSymbol(nl, '  ').
+pieceToSymbol(em, '  ').
+pieceToSymbol(bq, 'B ').
+pieceToSymbol(wq, 'W ').
+pieceToSymbol(bp, 'b ').
+pieceToSymbol(wp, 'w ').
 pieceToSymbol(Piece, '# ').
 
 %% === Print functions === %%
