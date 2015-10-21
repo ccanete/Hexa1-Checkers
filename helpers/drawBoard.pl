@@ -33,3 +33,11 @@ printLine(Board, Line, Col) :-
 % End of the loop
 printLine( _, _, 11) :- nl,!.
 
+% Convert pice code to graphic symbol
+pieceToSymbol(nl, '  ').
+pieceToSymbol(em, '  ').
+pieceToSymbol(bq, 'B ').
+pieceToSymbol(wq, 'W ').
+pieceToSymbol(bp, 'b ').
+pieceToSymbol(wp, 'w ').
+pieceToSymbol(Piece, '# ').

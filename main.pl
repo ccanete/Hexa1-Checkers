@@ -20,6 +20,7 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 ?- ['actions/move.pl'].
 ?- ['actions/checkEat.pl'].
 ?- ['helpers/drawBoard.pl'].
+?- ['helpers/util.pl'].
 
 % Main function
 initGame:-
@@ -74,59 +75,3 @@ continuePlaying(Board, white):-
   member(wp, Board),!;member(wq, Board),!.
 continuePlaying(Board, black):-
   member(bp, Board),!;member(bq, Board),!.
-
-
-% Return the piece at X, Y coordinate in the Board
-getPiece(Board, X, Y, Piece) :-
-  convertCoordinate(X, Y, Pos),
-  nth0(Pos, Board, Piece).
-
-%% === Helpers === %%
-
-% Replace an element in an array. (Board, Index, NexElement, NewBoard)
-replace([_|T], 0, X, [X|T]).
-replace([H|T], I, X, [H|R]):- I > -1, NI is I-1, replace(T, NI, X, R), !.
-replace(L, _, _, L).
-
-/*
-% Convert coordinate to array index (index starts at 1)
-convertCoordinate(Line, Column, Pos):-
-  %write('Line : '),
-  %write(Line), nl,
-  %write('Column : '),
-  %write(Column), nl,
-  Line =< 10,
-  Line >= 1,
-  Column >= 1,
-  Column =< 10,
-  Pos is (Line-1) * 10 + Column-1.
-*/
-
-% Convert coordinate to array index (index starts at 1)
-convertCoordinate(Line, Column, Pos):-
-  checkBoarders(Line, Column),
-  Pos is ((Line-1) * 10 + Column-1).
-
-checkBoarders(Line, Column) :-
-  between(1, 10,Line),
-  between(1, 10, Column).
-
-% Convert pice code to graphic symbol
-pieceToSymbol(nl, '  ').
-pieceToSymbol(em, '  ').
-pieceToSymbol(bq, 'B ').
-pieceToSymbol(wq, 'W ').
-pieceToSymbol(bp, 'b ').
-pieceToSymbol(wp, 'w ').
-pieceToSymbol(Piece, '# ').
-
-%% === End of the Game === %%
-%% TODO
-% End of game
-  % No more white
-  % No more black
-  % No more possible move
- %end(Board) :-
-
- %noMore(Board, Color) :-
-  % Regarder dans le cours comment parcourir une liste
