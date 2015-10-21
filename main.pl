@@ -14,11 +14,11 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
                bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
                nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
 
-%% Modules
-:-['Queen.pl'].
-:-['DrawBoard.pl'].
-:-['Action.pl'].
-:-['CheckEat.pl'].
+/* Module Imports */
+:-['actions/queen.pl'].
+:-['helpers/drawBoard.pl'].
+:-['actions/action.pl'].
+:-['actions/checkEat.pl'].
 
 % Main function
 initGame:-
@@ -29,10 +29,10 @@ initGame:-
   play(Board, 4, 2, 2, 4, white),
   write('--- GAME 2 ---'),nl,
   printBoard(Board),
-  play(Board, 1, 1, 2, 10, white),
-  write('--- Dynamic board test ---'),
-  board(X),
-  printBoard(X).
+  play(Board, 1, 1, 2, 10, white).
+  %write('--- Dynamic board test ---'),
+  %board(X),
+  %printBoard(X).
 
 % Piece : the piece you're looking for
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
