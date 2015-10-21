@@ -16,9 +16,10 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 
 /* Module Imports */
 ?- ['actions/queen.pl'].
-?- ['helpers/drawBoard.pl'].
-?- ['actions/action.pl'].
+?- ['actions/eat.pl'].
+?- ['actions/move.pl'].
 ?- ['actions/checkEat.pl'].
+?- ['helpers/drawBoard.pl'].
 
 % Main function
 initGame:-
@@ -30,11 +31,7 @@ initGame:-
   write('--- GAME 2 ---'),nl,
   printBoard(Board),
   play(Board, 1, 1, 2, 10, white).
-  %write('--- Dynamic board test ---'),
-  %board(X),
-  %printBoard(X).
 
-% Piece : the piece you're looking for
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
 play(Board, X, Y, NewX, NewY, Color):-
   checkMove(Board, X, Y, NewX, NewY, Color),
@@ -68,62 +65,6 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
-checkMove(Board, X, Y, NewX, NewY, white):-
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  Piece == em,
-  OldX is X+1,
-  OldY is Y+1,
-  write('X : '),
-  write(OldX),nl,
-  write('Y : '),
-  write(OldY),nl,
-  NewX == OldX,
-  NewY == OldY.
-
-checkMove(Board, X, Y, NewX, NewY, white):-
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  Piece == em,
-  OldX is X+1,
-  OldY is Y-1,
-  write('X : '),
-  write(OldX),nl,
-  write('Y : '),
-  write(OldY),nl,
-  NewX == OldX,
-  NewY == OldY.
-
-checkMove(Board, X, Y, NewX, NewY, black):-
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  Piece == em,
-  OldX is X-1,
-  OldY is Y-1,
-  write('X : '),
-  write(OldX),nl,
-  write('Y : '),
-  write(OldY),nl,
-  NewX == OldX,
-  NewY == OldY.
-
-checkMove(Board, X, Y, NewX, NewY, black):-
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  Piece == em,
-  OldX is X-1,
-  OldY is Y+1,
-  write('X : '),
-  write(OldX),nl,
-  write('Y : '),
-  write(OldY),nl,
-  NewX == OldX,
-  NewY == OldY.
-
 
 % Check if a player has won
 continuePlaying(Board):-
