@@ -15,10 +15,10 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
                nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
 
 /* Module Imports */
-:-['actions/queen.pl'].
-:-['helpers/drawBoard.pl'].
-:-['actions/action.pl'].
-:-['actions/checkEat.pl'].
+?- ['actions/queen.pl'].
+?- ['helpers/drawBoard.pl'].
+?- ['actions/action.pl'].
+?- ['actions/checkEat.pl'].
 
 % Main function
 initGame:-
