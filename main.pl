@@ -28,7 +28,7 @@ initGame:-
   %% test eat and move
   write('--- GAME 1 ---'),nl,
   printBoard(Board),
-  play(Board, 4, 4, 5, 5, white),
+  play(Board, 4, 4, 5, 5, white).
 
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
 play(Board, X, Y, NewX, NewY, Color):-
