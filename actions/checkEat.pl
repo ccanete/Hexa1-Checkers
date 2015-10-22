@@ -96,3 +96,4 @@ noPieceAt(NextPos, Board) :- nth0(NextPos, Board, NextCase), isEmpty(NextCase).
  % Test check if LandingPosCandidate is Free
 checkFreeWayToEat(Board, LandingPosCandidate) :-
   findPiece(Board, LandingPosCandidate, NextToEatenCase), isEmpty(NextToEatenCase).
+  

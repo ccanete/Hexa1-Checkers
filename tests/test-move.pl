@@ -1,4 +1,4 @@
-checkMove:-
+testCheckMove:-
   initBoard(Board),
   printBoard(Board),
   %% test eat and move
