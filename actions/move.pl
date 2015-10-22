@@ -1,58 +1,36 @@
 %% MOVE %%
 
-%% TODO : DoMove
+doMove(Board, X, Y, NewX, NewY, NewBoard) :-
+  checkMove(Board, X, Y, NewX, NewY),
+  processMove(Board, X, Y, NewX, NewY, NewBoard).
 
 %Check Move
-checkMove(Board, X, Y, NewX, NewY, white):-
-  write('checkMove 1'),nl,
-  % get the pice in the destination box
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  % check if the box is empty
-  Piece == em,
-  AcceptedX is X+1,
+checkMove(Board, X, Y, NewX, NewY):-
+  write('checkMove'),nl,
+  checkBoarders(X, Y),
+  checkBoarders(NewX, NewY),
+  checkDestinationFree(Board, NewX, NewY),
+  getPiece(Board, X, Y, PieceToMove),
+  checkPieceMove(PieceToMove, X, Y, NewX, NewY).
+
+checkDestinationFree(Board, NewX, NewY):-
+  getPiece(Board, NewX, NewY, DestinationPiece),
+  DestinationPiece == em.
+
+checkPieceMove(wp, X, Y, NewX, NewY):-
+  write('checkMove wp'),nl,
+  AcceptedX1 is X+1,
+  AcceptedX2 is X-1,
   AcceptedY is Y+1,
-  AcceptedX == NewX,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
   AcceptedY == NewY.
 
-checkMove(Board, X, Y, NewX, NewY, white):-
-  write('checkMove 1'),nl,
-  % get the pice in the destination box
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  % check if the box is empty
-  Piece == em,
-  AcceptedX is X-1,
-  AcceptedY is Y+1,
-  AcceptedX == NewX,
-  AcceptedY == NewY.
-
-checkMove(Board, X, Y, NewX, NewY, black):-
-  write('checkMove 1'),nl,
-  % get the pice in the destination box
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  % check if the box is empty
-  Piece == em,
-  AcceptedX is X-1,
+checkPieceMove(bp, X, Y, NewX, NewY):-
+  write('checkMove bp'),nl,
+  AcceptedX1 is X-1,
+  AcceptedX2 is X+1,
   AcceptedY is Y-1,
-  AcceptedX == NewX,
-  AcceptedY == NewY.
-
-checkMove(Board, X, Y, NewX, NewY, black):-
-  write('checkMove 1'),nl,
-  % get the pice in the destination box
-  getPiece(Board, NewX, NewY, Piece),
-  write('piece : '),
-  write(Piece),nl,
-  % check if the box is empty
-  Piece == em,
-  AcceptedX is X+1,
-  AcceptedY is Y-1,
-  AcceptedX == NewX,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
   AcceptedY == NewY.
 
 % Process Move after having check rules
