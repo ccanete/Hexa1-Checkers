@@ -64,4 +64,14 @@ testMove:-
   write('OK'),nl,
   write('Test 6: No pawn (2,7) to (3,6) - Error no pawn selected'),nl,
   not(checkMove(Board,2, 7, 3, 6)),
-  write('OK'),nl.
+  write('OK'),nl,
+  write('Test 7: White (1,7) to (2,7) - Move not allowed'),nl,
+  not(checkMove(Board,1, 7, 2, 7)),
+  write('OK'),nl,
+  write('Test 8: White (1,7) to (1,8) - Move not allowed'),nl,
+  not(checkMove(Board,1, 7, 1, 8)),
+  write('OK'),nl,
+  write('Test 9: White (8,2) to (7,4) - destination not empty'),nl,
+  not(checkMove(Board,8, 2, 7, 4)),
+  write('OK'),nl,
+  write('--- Test Move Completed ---'),nl.
