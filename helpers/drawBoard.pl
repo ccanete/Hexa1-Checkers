@@ -2,7 +2,9 @@
 
 % Start printing the board recursivly (loop style)
 printBoard(Board) :-
-  write('+----------------------------+'),nl,
+  write('+--------------------------------+'),nl,
+  write('|  |1 |2 |3 |4 |5 |6 |7 |8 |9 |10|'), nl,
+  write('|--+--+--+--+--+--+--+--+--+--+--|'), nl,
   printBoard(Board, 1), !.
 % Calls the PrintLine function and iterates
 printBoard(Board, Line) :-
@@ -12,17 +14,21 @@ printBoard(Board, Line) :-
   printBoard(Board, NextLine).
 % End of the loop
 printBoard( _, 11) :-
-  write('+----------------------------+'),nl,!.
+  nl,!.
 
 % Print a seperation line
 printGrid :-
-  write('|--+--+--+--+--+--+--+--+--+--|'), nl.
+  write('|--+--+--+--+--+--+--+--+--+--+--|'), nl.
 
 % Start printing a line recursivly (loop style)
 printLine(Board, Line) :-
    write('|'),
-   printLine(Board, Line, 1).
+   printLine(Board, Line, 0).
 % Print a piece of the line then recursiv call
+printLine(Board, Line, 0) :-
+  write(Line),
+  write(' |'),
+  printLine(Board, Line, 1).
 printLine(Board, Line, Col) :-
   getPiece(Board, Line, Col, Piece),
   pieceToSymbol(Piece, Symbol),
@@ -40,4 +46,4 @@ pieceToSymbol(bq, 'B ').
 pieceToSymbol(wq, 'W ').
 pieceToSymbol(bp, 'b ').
 pieceToSymbol(wp, 'w ').
-pieceToSymbol(Piece, '# ').
+pieceToSymbol(Piece, Piece).
