@@ -6,14 +6,14 @@ getPiece(Board, X, Y, Piece) :-
   nth0(Pos, Board, Piece).
 
 % Convert coordinate to array index (index starts at 1)
-convertCoordinate(Line, Column, Pos):-
-  checkBoarders(Line, Column),
-  Pos is ((Line-1) * 10 + (Column-1)).
+convertCoordinate(X, Y, Pos):-
+  checkBoarders(X, Y),
+  Pos is ((Y-1) * 10 + (X-1)).
 
 %% Check if the coordinate are in the board
-checkBoarders(Line, Column) :-
-  between(1, 10, Line),
-  between(1, 10, Column).
+checkBoarders(X, Y) :-
+  between(1, 10, X),
+  between(1, 10, Y).
 
 %% OLD convertCoordinate code
 /*
