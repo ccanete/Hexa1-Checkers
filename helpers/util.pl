@@ -15,6 +15,14 @@ checkBoarders(X, Y) :-
   between(1, 10, X),
   between(1, 10, Y).
 
+% Replace all of the zombies pieces to empties at the end of any game turn
+zombieToEmpty(Board, NewBoard) :-
+  nth0(Pos, Board, zb),
+  replace(Board, Pos, em, TempBoard),
+  zombieToEmpty(TempBoard, NewBoard).
+
+zombieToEmpty(Board, Board).
+
 %% OLD convertCoordinate code
 /*
 % Convert coordinate to array index (index starts at 1)
