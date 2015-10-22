@@ -6,9 +6,9 @@
 ?- ['actions/queen.pl'].
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
-?- ['actions/checkEat.pl'].
 ?- ['helpers/drawBoard.pl'].
 ?- ['helpers/util.pl'].
+?- ['helpers/pieceFacts.pl'].
 ?- ['tests/test-move.pl'].
 ?- ['tests/test-util.pl'].
 ?- ['tests/test-eat.pl'].

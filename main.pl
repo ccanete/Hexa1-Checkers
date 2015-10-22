@@ -18,7 +18,6 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 ?- ['actions/queen.pl'].
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
-?- ['actions/checkEat.pl'].
 ?- ['helpers/drawBoard.pl'].
 ?- ['helpers/util.pl'].
 
