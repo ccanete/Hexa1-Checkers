@@ -8,11 +8,11 @@ getPiece(Board, X, Y, Piece) :-
 % Convert coordinate to array index (index starts at 1)
 convertCoordinate(Line, Column, Pos):-
   checkBoarders(Line, Column),
-  Pos is ((Line-1) * 10 + Column-1).
+  Pos is ((Line-1) * 10 + (Column-1)).
 
 %% Check if the coordinate are in the board
 checkBoarders(Line, Column) :-
-  between(1, 10,Line),
+  between(1, 10, Line),
   between(1, 10, Column).
 
 %% OLD convertCoordinate code
