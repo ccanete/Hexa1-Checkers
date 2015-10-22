@@ -1,12 +1,9 @@
 %% EAT %%
 
-%% MODULES
-?- ['helpers/pieceFacts.pl'].
-?- ['helpers/util.pl'].
-
-
 %% DO EAT
 
+
+% TODO : remplacer tous les zombies par des cases vides à la fin d'un tour
 doEat(Board, X, Y, NewX, NewY, NewBoard) :-
 checkEat(Board, X, Y, XEaten, YEaten, NewX, NewY),
 processEat(Board, XEaten, YEaten, NewBoard).
