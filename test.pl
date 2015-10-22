@@ -11,6 +11,7 @@
 ?- ['helpers/util.pl'].
 ?- ['tests/test-move.pl'].
 ?- ['tests/test-util.pl'].
+?- ['tests/test-eat.pl'].
 
 initBoard(Board) :-
       Board = [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
