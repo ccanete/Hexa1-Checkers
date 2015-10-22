@@ -47,8 +47,8 @@ testMove:-
   printBoard(Board),
   %% test eat and move
   write('--- Test Move ---'),nl,
-  write('Test 1: valid move white pown 1'),nl,
-  checkMove(Board, 2, 4, 1, 5, white),
+  write('Test 1: White (2,4) to (3,5)'),nl,
+  checkMove(Board, 2, 4, 3, 5, white),
   write('OK'),nl,
   write('Test 2: valid move white pown 2'),nl,
   checkMove(Board, 2, 4, 3, 5, white),
