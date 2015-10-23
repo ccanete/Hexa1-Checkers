@@ -18,10 +18,13 @@ processEat(Board, PosEater, PosEaten, NewPos, NewBoard).
 
 %% PROCESS EAT
 
+% replace the eaten piece by a zombie, easier way to handle a whole game turn (if any pieces are eaten on the same game turn)
+% don't forget to replace all zombies by empties at the end of the game turn
+
 processEat(Board, PosEater, PosEaten, NewPos, NewBoard) :- 
 findPiece(Board, PosEater, EaterPiece),
 replace(Board, PosEater, em, NewBoardIntention),
-replace(NewBoardIntention, PosEaten, em, NewBoardDigestion),
+replace(NewBoardIntention, PosEaten, zb, NewBoardDigestion),
 replace(NewBoardDigestion, NewPos, EaterPiece, NewBoard). 
 
 /* old processEat
