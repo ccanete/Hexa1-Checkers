@@ -23,12 +23,19 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 ?- ['helpers/util.pl'].
 
 % Main function
-initGame:-
+playCheckers:-
   initBoard(Board),
-  %% test eat and move
-  write('--- GAME 1 ---'),nl,
   printBoard(Board),
-  play(Board, 4, 4, 5, 5, white).
+  play(Board, white).
+
+play(Board, Player):-
+  %TODO: check games end
+  write('Player '), write(Player), write(' plays.'),nl,
+  getUserMove(X,Y,NewX,NewY),
+  write('Move: X='), write(X), write(', Y='), write(Y), write(', NewX='), write(NewX), write(', NewY='), write(NewY),nl,
+  %processTurn(Board, Player, X, Y, NewX, NewY),
+  nextPlayer(Player, NextPlayer),
+  play(Board, NextPlayer).
 
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
 play(Board, X, Y, NewX, NewY, Color):-
@@ -62,6 +69,19 @@ initBoard(Board) :-
 % wq : white queen
 % bp : black pawn
 % wp : white pawn
+
+getUserMove(X,Y,NewX,NewY):-
+  write('Enter the line number of the pawn you want to move (Y)'),nl,
+  read(Y),
+  write('Enter the column number of the pawn you want to move (X)'),nl,
+  read(X),
+  write('Enter the line number of the box you want to move to (NewY)'),nl,
+  read(NewY),
+  write('Enter the column number of the box you want to move to (NewX)'),nl,
+  read(NewX).
+
+nextPlayer(white,black).
+nextPlayer(black, white).
 
 % Check if a player has won
 continuePlaying(Board):-
