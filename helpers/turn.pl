@@ -1,36 +1,3 @@
-dynamic board/1.
-board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-               wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-               em,nl,em,nl,em,nl,em,nl,em,nl,
-               nl,em,nl,em,nl,em,nl,em,nl,em,
-               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
-               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
-
-% The initial board (origin box : lower left corner of the board)
-getBoard(Board) :-
-      Board = [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-      				 wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-      				 em,nl,em,nl,em,nl,em,nl,em,nl,
-      				 nl,em,nl,em,nl,em,nl,em,nl,em,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp].
-
-% nl : null (unaccessible box)
-% em : free box
-% bq : black queen
-% wq : white queen
-% bp : black pawn
-% wp : white pawn
-
-
 % The initial board (origin box : lower left corner of the board)
 initBoard :-
     b_setval(board, [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
@@ -67,7 +34,8 @@ nextPlayer(white,black).
 nextPlayer(black, white).
 
 % Check if a player has won
-continuePlaying(Board):-
+continuePlaying:-
+  b_getval(board, Board),
   continuePlaying(Board, white),
   continuePlaying(Board, black).
 continuePlaying(Board, white):-
