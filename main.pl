@@ -11,33 +11,31 @@
 ?- ['helpers/util.pl'].
 ?- ['helpers/turn.pl'].
 
-% Main function
 playCheckers:-
-  initBoard(Board),
-  printBoard(Board),
-  play(Board, white).
+  initBoard,
+  printBoard,
+  play(white).
 
-play(Board, Player):-
-  continuePlaying(Board),
+play(Player):-
+  continuePlaying,
   write('Player '), write(Player), write(' plays.'),nl,
   getUserMove(X,Y,NewX,NewY),
   write('Move: X='), write(X), write(', Y='), write(Y), write(', NewX='), write(NewX), write(', NewY='), write(NewY),nl,
-  processTurn(Board, Player, X, Y, NewX, NewY, NewBoard),
+  processTurn(Player, X, Y, NewX, NewY),
   nextPlayer(Player, NextPlayer),
-  play(NewBoard, NextPlayer).
+  play(NextPlayer).
   %TODO: handle a wrong turn
-
-play(Board, Player):-
+play(Player):-
   %GameOver for a player
-  not(continuePlaying(Board)),
+  not(continuePlaying),
   %TODO: Find who has won
   write('GameOver').
 
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
-processTurn(Board, Player, X, Y, NewX, NewY, BoardAfterQueen):-
-  doMove(Board, X, Y, NewX, NewY, BoardAfterMove),
-  printBoard(BoardAfterMove),
-  doEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
-  printBoard(BoardAfterEat),
-  doQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
-  printBoard(BoardAfterQueen).
+processTurn(Player, X, Y, NewX, NewY):-
+  doMove(X, Y, NewX, NewY),
+  printBoard,
+  doEat(X, Y, NewX, NewY),
+  printBoard,
+  doQueen(NewX, NewY),
+  printBoard.

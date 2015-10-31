@@ -1,8 +1,9 @@
 %% === Helpers === %%
 
 % Return the piece at X, Y coordinate in the Board
-getPiece(Board, X, Y, Piece) :-
+getPiece(X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
+  b_getval(board, Board),
   nth0(Pos, Board, Piece).
 
 % Convert coordinate to array index (index starts at 1)
