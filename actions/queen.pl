@@ -1,6 +1,5 @@
 %% DO QUEEN %%
 doQueen(NewX, NewY):-
-  %NewBoard is Board,
   checkQueen(NewX, NewY),
   processQueen(NewX, NewY),!.
 doQueen(_, _).
@@ -8,11 +7,11 @@ doQueen(_, _).
 % params :
 checkQueen(NewX, NewY):-
   getPiece(NewX, NewY, Piece),
-  checkQueen(NewY, Piece).
-checkQueen(NewY, bp):-
-    NewY = 1.
-checkQueen(NewY, wp):-
-    NewY = 10.
+  checkQueen(NewX, NewY, Piece).
+checkQueen(_, NewY, bp):-
+    NewY == 1.
+checkQueen(_, NewY, wp):-
+    NewY == 10.
 
 % Predicate became queen (call it between turns not replays)
 processQueen(NewX, NewY) :-
