@@ -5,3 +5,6 @@ processEat(Board, X, Y, NewX, NewY, NewBoard) :-
   YEaten is (Y+NewY)/2,
   convertCoordinate(XEaten, YEaten, Pos),
   replace(Board, Pos, em, NewBoard).
+
+%doEat(Board, X, Y, NewX, NewY, NewBoard).
+doEat(Board, _, _, _, _, Board).
