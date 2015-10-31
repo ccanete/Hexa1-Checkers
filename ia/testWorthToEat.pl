@@ -12,7 +12,7 @@ worthToEat(Board, BP, WP, R):-
 	simulateEat(Board, BP, WP, NewBoard), 
 	canEat(NewBoard, WPy, BP, Ry), 
 	Rx - Ry > 0, 
-	R is 1; 
+	R is 0; 
 	canEat(Board, BP,WP, Rx), 
 	simulateEat(Board, BP, WP, NewBoard), 
 	becomesQueen(NewBoard, BP, Ry), 
@@ -23,10 +23,10 @@ worthToEat(Board, BP, WP, R):-
 % TODO : include the predicate canMove 
 % and worthToMove along with the upper rule
 
-
 % Worth to eat basic case after T play: 
 % after eating / moving several times,
-% we want own eaten pieces be lower than player eaten pieces
+% we want own eaten pieces be lower than 
+% player eaten pieces
 
 
 worthToEat(Board, BP, WP, R, T):- 
