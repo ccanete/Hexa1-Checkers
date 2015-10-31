@@ -2,7 +2,6 @@
 %           Checkers game             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 /* Module Imports */
 ?- ['actions/queen.pl'].
 ?- ['actions/eat.pl'].
@@ -10,6 +9,7 @@
 ?- ['actions/checkEat.pl'].
 ?- ['helpers/drawBoard.pl'].
 ?- ['helpers/util.pl'].
+?- ['helpers/turn.pl'].
 
 % Main function
 initGame:-
@@ -22,9 +22,7 @@ initGame:-
 %play(X, Y, NewX, NewY, Player):- gameover, !.
 play(X, Y, NewX, NewY, Player):-
   doMove(X, Y, NewX, NewY),
-
   %b_getval(board, Board),
-
   % BE CAREFULL, IF NO EAT WHAT BOARD SHOULD BE USED ?
   %checkEat(Board, X, Y, NewX, NewY),
   %processEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
@@ -32,36 +30,34 @@ play(X, Y, NewX, NewY, Player):-
   %doQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
   %printBoard(BoardAfterQueen),
   %continuePlaying(BoardAfterQueen),
-
   %b_setval(board, BoardAfterMove),
-
   printBoard.
 
-% The initial board (origin box : lower left corner of the board)
-initBoard :-
-      b_setval(board, [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-      				 wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-      				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-      				 em,nl,em,nl,em,nl,em,nl,em,nl,
-      				 nl,em,nl,em,nl,em,nl,em,nl,em,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
-      				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
+playCheckers:-
+  getBoard(Board),
+  printBoard(Board),
+  play(Board, white).
 
-% nl : null (unaccessible box)
-% em : free box
-% bq : black queen
-% wq : white queen
-% bp : black pawn
-% wp : white pawn
+play(Board, Player):-
+  continuePlaying(Board),
+  write('Player '), write(Player), write(' plays.'),nl,
+  getUserMove(X,Y,NewX,NewY),
+  write('Move: X='), write(X), write(', Y='), write(Y), write(', NewX='), write(NewX), write(', NewY='), write(NewY),nl,
+  processTurn(Board, Player, X, Y, NewX, NewY, NewBoard),
+  nextPlayer(Player, NextPlayer),
+  play(NewBoard, NextPlayer).
+  %TODO: handle a wrong turn
+play(Board, Player):-
+  %GameOver for a player
+  not(continuePlaying(Board)),
+  %TODO: Find who has won
+  write('GameOver').
 
-% Check if a player has won
-continuePlaying(Board):-
-  continuePlaying(Board, white),
-  continuePlaying(Board, black).
-continuePlaying(Board, white):-
-  member(wp, Board),!;member(wq, Board),!.
-continuePlaying(Board, black):-
-  member(bp, Board),!;member(bq, Board),!.
+%play(Board, X, Y, NewX, NewY, Color):- gameover, !.
+processTurn(Board, Player, X, Y, NewX, NewY, BoardAfterQueen):-
+  doMove(Board, X, Y, NewX, NewY, BoardAfterMove),
+  printBoard(BoardAfterMove),
+  doEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
+  printBoard(BoardAfterEat),
+  doQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
+  printBoard(BoardAfterQueen).
