@@ -2,17 +2,6 @@
 %           Checkers game             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dynamic board/1.
-board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-               wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
-               nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
-               em,nl,em,nl,em,nl,em,nl,em,nl,
-               nl,em,nl,em,nl,em,nl,em,nl,em,
-               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
-               bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-               nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
 
 /* Module Imports */
 ?- ['actions/queen.pl'].
@@ -24,16 +13,18 @@ board([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
 
 % Main function
 initGame:-
-  initBoard(Board),
+  initBoard,
+  printBoard,
   %% test eat and move
   write('--- GAME 1 ---'),nl,
-  printBoard(Board),
-  play(Board, 4, 4, 5, 5, white).
+  play(4, 4, 5, 5, white).
 
-%play(Board, X, Y, NewX, NewY, Color):- gameover, !.
-play(Board, X, Y, NewX, NewY, Color):-
-  doMove(Board, X, Y, NewX, NewY, BoardAfterMove),
-  printBoard(BoardAfterMove),
+%play(X, Y, NewX, NewY, Player):- gameover, !.
+play(X, Y, NewX, NewY, Player):-
+  doMove(X, Y, NewX, NewY),
+
+  %b_getval(board, Board),
+
   % BE CAREFULL, IF NO EAT WHAT BOARD SHOULD BE USED ?
   %checkEat(Board, X, Y, NewX, NewY),
   %processEat(BoardAfterMove, X, Y, NewX, NewY, BoardAfterEat),
@@ -41,11 +32,14 @@ play(Board, X, Y, NewX, NewY, Color):-
   %doQueen(BoardAfterEat, BoardAfterQueen, NewX, NewY),
   %printBoard(BoardAfterQueen),
   %continuePlaying(BoardAfterQueen),
-  write('Play again !').
+
+  %b_setval(board, BoardAfterMove),
+
+  printBoard.
 
 % The initial board (origin box : lower left corner of the board)
-initBoard(Board) :-
-      Board = [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
+initBoard :-
+      b_setval(board, [wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
       				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
       				 wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,
       				 nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,
@@ -54,7 +48,7 @@ initBoard(Board) :-
       				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
       				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,
       				 bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,
-      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp].
+      				 nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]).
 
 % nl : null (unaccessible box)
 % em : free box
