@@ -1,22 +1,20 @@
 %% MOVE %%
 
-doMove(X, Y, NewX, NewY) :-
-  checkMove(X, Y, NewX, NewY),
-  processMove(X, Y, NewX, NewY).
+doMove(Board, X, Y, NewX, NewY, NewBoard) :-
+  checkMove(Board, X, Y, NewX, NewY),
+  processMove(Board, X, Y, NewX, NewY, NewBoard).
 
 %Check Move
-checkMove(X, Y, NewX, NewY):-
+checkMove(Board, X, Y, NewX, NewY):-
   write('checkMove'),nl,
   checkBoarders(X, Y),
   checkBoarders(NewX, NewY),
-  checkDestinationFree(NewX, NewY),
-  b_getval(board, Board),
-  getPiece(X, Y, PieceToMove),
+  checkDestinationFree(Board, NewX, NewY),
+  getPiece(Board, X, Y, PieceToMove),
   checkPieceMove(PieceToMove, X, Y, NewX, NewY).
 
-checkDestinationFree(NewX, NewY):-
-  b_getval(board, Board),
-  getPiece(NewX, NewY, DestinationPiece),
+checkDestinationFree(Board, NewX, NewY):-
+  getPiece(Board, NewX, NewY, DestinationPiece),
   DestinationPiece == em.
 
 checkPieceMove(wp, X, Y, NewX, NewY):-
@@ -36,11 +34,9 @@ checkPieceMove(bp, X, Y, NewX, NewY):-
   AcceptedY == NewY.
 
 % Process Move after having check rules
-processMove(X, Y, NewX, NewY) :-
+processMove(Board, X, Y, NewX, NewY, NewBoard) :-
   convertCoordinate(X, Y, Pos),
   convertCoordinate(NewX, NewY, NewPos),
-  b_getval(board, Board),
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
-  replace(TempBoard, NewPos, Piece, NewBoard),
-  b_setval(board, NewBoard).
+  replace(TempBoard, NewPos, Piece, NewBoard).

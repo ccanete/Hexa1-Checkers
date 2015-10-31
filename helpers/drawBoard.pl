@@ -1,19 +1,19 @@
 %% === Print functions === %%
 
 % Start printing the board recursivly (loop style)
-printBoard :-
+printBoard(Board) :-
   write('+--------------------------------+'),nl,
   write('|  |1 |2 |3 |4 |5 |6 |7 |8 |9 |10|'), nl,
   write('|--+--+--+--+--+--+--+--+--+--+--|'), nl,
-  printBoard(1), !.
+  printBoard(Board, 1), !.
 % Calls the PrintLine function and iterates
-printBoard(Y) :-
-  printLine(Y),
+printBoard(Board, Y) :-
+  printLine(Board, Y),
   printGrid,
   NextLine is Y + 1,
-  printBoard(NextLine).
+  printBoard(Board, NextLine).
 % End of the loop
-printBoard(11) :-
+printBoard( _, 11) :-
   nl,!.
 
 % Print a seperation line
@@ -21,23 +21,23 @@ printGrid :-
   write('|--+--+--+--+--+--+--+--+--+--+--|'), nl.
 
 % Start printing a line recursivly (loop style)
-printLine(Y) :-
+printLine(Board, Y) :-
    write('|'),
-   printLine(Y, 0).
+   printLine(Board, Y, 0).
 % Print a piece of the line then recursiv call
-printLine(Y, 0) :-
+printLine(Board, Y, 0) :-
   write(Y),
   write(' |'),
-  printLine(Y, 1).
-printLine(Y, X) :-
-  getPiece(X, Y, Piece),
+  printLine(Board, Y, 1).
+printLine(Board, Y, X) :-
+  getPiece(Board, X, Y, Piece),
   pieceToSymbol(Piece, Symbol),
   write(Symbol),
   write('|'),
   NextCol is X + 1,
-  printLine(Y, NextCol).
+  printLine(Board, Y, NextCol).
 % End of the loop
-printLine( _, 11) :- nl,!.
+printLine( _, _, 11) :- nl,!.
 
 % Convert pice code to graphic symbol
 pieceToSymbol(nl, '  ').
