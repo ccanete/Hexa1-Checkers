@@ -10,30 +10,8 @@ checkMove(X, Y, NewX, NewY):-
   checkBoarders(X, Y),
   checkBoarders(NewX, NewY),
   checkDestinationFree(NewX, NewY),
-  b_getval(board, Board),
   getPiece(X, Y, PieceToMove),
   checkPieceMove(PieceToMove, X, Y, NewX, NewY).
-
-checkDestinationFree(NewX, NewY):-
-  b_getval(board, Board),
-  getPiece(NewX, NewY, DestinationPiece),
-  DestinationPiece == em.
-
-checkPieceMove(wp, X, Y, NewX, NewY):-
-  write('checkMove wp'),nl,
-  AcceptedX1 is X+1,
-  AcceptedX2 is X-1,
-  AcceptedY is Y+1,
-  (AcceptedX1 == NewX; AcceptedX2 == NewX),
-  AcceptedY == NewY.
-
-checkPieceMove(bp, X, Y, NewX, NewY):-
-  write('checkMove bp'),nl,
-  AcceptedX1 is X-1,
-  AcceptedX2 is X+1,
-  AcceptedY is Y-1,
-  (AcceptedX1 == NewX; AcceptedX2 == NewX),
-  AcceptedY == NewY.
 
 % Process Move after having check rules
 processMove(X, Y, NewX, NewY) :-
@@ -44,3 +22,22 @@ processMove(X, Y, NewX, NewY) :-
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard),
   b_setval(board, NewBoard).
+
+%Helpers
+checkDestinationFree(NewX, NewY):-
+  getPiece(NewX, NewY, DestinationPiece),
+  DestinationPiece == em.
+
+checkPieceMove(wp, X, Y, NewX, NewY):-
+  write('checkMove wp'),nl,
+  AcceptedX1 is X+1, AcceptedX2 is X-1,
+  AcceptedY is Y+1,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
+  AcceptedY == NewY.
+
+checkPieceMove(bp, X, Y, NewX, NewY):-
+  write('checkMove bp'),nl,
+  AcceptedX1 is X-1, AcceptedX2 is X+1,
+  AcceptedY is Y-1,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
+  AcceptedY == NewY.
