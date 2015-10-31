@@ -8,10 +8,10 @@ doQueen(_, _).
 % params :
 checkQueen(NewX, NewY):-
   getPiece(NewX, NewY, Piece),
-  checkQueen(NewX, NewY, Piece).
-checkQueen(NewX, NewY, bp):-
+  checkQueen(NewY, Piece).
+checkQueen(NewY, bp):-
     NewY = 1.
-checkQueen(NewX, NewY, wp):-
+checkQueen(NewY, wp):-
     NewY = 10.
 
 % Predicate became queen (call it between turns not replays)
