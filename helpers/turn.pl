@@ -22,7 +22,7 @@ userMove(X,Y,NewX,NewY):-
   getUserMove(X,Y,NewX,NewY),
   checkMove(X, Y, NewX, NewY).
 userMove(X,Y,NewX,NewY):-
-  nl,write('This move is impossible, please, try an other one:'),nl,nl,
+  nl,write('This move is impossible, please, try another one:'),nl,nl,
   userMove(X,Y,NewX,NewY).
 
 % Returns the User move
