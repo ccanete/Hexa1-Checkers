@@ -21,6 +21,7 @@ play(Player):-
   userMove(X,Y,NewX,NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
+  zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer).
@@ -31,8 +32,10 @@ play(Player):-
   %TODO: Find who has won
   write('GameOver').
 
-%play(Board, X, Y, NewX, NewY, Color):- gameover, !.
+% First, we try to eat, if not possible, we try to move
+processTurn(Player, X, Y, NewX, NewY):-
+  doEat(X, Y, NewX, NewY),
+  doQueen(NewX, NewY).
 processTurn(Player, X, Y, NewX, NewY):-
   doMove(X, Y, NewX, NewY),
-  doEat(X, Y, NewX, NewY),
   doQueen(NewX, NewY).
