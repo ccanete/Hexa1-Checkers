@@ -1,26 +1,28 @@
 %% DO QUEEN %%
-doQueen(Board, NewBoard, NewX, NewY):-
+doQueen(NewX, NewY):-
   %NewBoard is Board,
-  checkQueen(Board, NewX, NewY),
-  processQueen(Board, NewBoard, NewX, NewY),!.
-doQueen(Board, Board, _, _).
+  checkQueen(NewX, NewY),
+  processQueen(NewX, NewY),!.
+doQueen(_, _).
 
 % params :
-checkQueen(Board, NewX, NewY):-
-  getPiece(Board, NewX, NewY, Piece),
-  checkQueen(Board, NewX, NewY, Piece).
-checkQueen(Board, NewX, NewY, bp):-
+checkQueen(NewX, NewY):-
+  getPiece(NewX, NewY, Piece),
+  checkQueen(NewX, NewY, Piece).
+checkQueen(NewX, NewY, bp):-
     NewY = 1.
-checkQueen(Board, NewX, NewY, wp):-
+checkQueen(NewX, NewY, wp):-
     NewY = 10.
 
 % Predicate became queen (call it between turns not replays)
-processQueen(Board, NewBoard, NewX, NewY) :-
+processQueen(NewX, NewY) :-
   convertCoordinate(NewX, NewY, NewPos),
-  getPiece(Board, NewX, NewY, P),
+  getPiece(NewX, NewY, P),
   convertQueen(P, Q),
-  replace(Board, NewPos, Q, NewBoard).
-processQueen(Board, Board, _, _).
+  b_getval(board, Board),
+  replace(Board, NewPos, Q, NewBoard),
+  b_setval(board, NewBoard).
+processQueen(_, _).
 
 %Convert to queen
 convertQueen(bp,bq).
