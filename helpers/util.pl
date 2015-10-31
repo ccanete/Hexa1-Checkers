@@ -14,8 +14,9 @@ isEmpty(em).
 isPiece(Case) :- isPawn(Case); isQueen(Case).
 
 % Return the piece at X, Y coordinate in the Board
-getPiece(Board, X, Y, Piece) :-
+getPiece(X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
+  b_getval(board, Board),
   nth0(Pos, Board, Piece).
 
 % Convert coordinate to array index (index starts at 1)
@@ -29,28 +30,13 @@ checkBoarders(X, Y) :-
   between(1, 10, Y).
 
 % Replace all of the zombies pieces to empties at the end of any game turn
-zombieToEmpty(Board, NewBoard) :-
+zombieToEmpty:-
+  b_getval(board, Board),
   nth0(Pos, Board, zb),
-  replace(Board, Pos, em, TempBoard),
-  zombieToEmpty(TempBoard, NewBoard).
-
-zombieToEmpty(Board, Board).
-
-%% OLD convertCoordinate code
-/*
-% Convert coordinate to array index (index starts at 1)
-convertCoordinate(Line, Column, Pos):-
-  %write('Line : '),
-  %write(Line), nl,
-  %write('Column : '),
-  %write(Column), nl,
-  Line =< 10,
-  Line >= 1,
-  Column >= 1,
-  Column =< 10,
-  Pos is (Line-1) * 10 + Column-1.
-*/
-
+  replace(Board, Pos, em, NewBoard),
+  b_setval(board, NewBoard),
+  zombieToEmpty.
+zombieToEmpty.
 
 % Replace an element in an array. (Board, Index, NexElement, NewBoard)
 replace([_|T], 0, X, [X|T]).
