@@ -18,17 +18,24 @@ initBoard :-
 % bp : black pawn
 % wp : white pawn
 
+userMove(X,Y,NewX,NewY):-
+  getUserMove(X,Y,NewX,NewY),
+  checkMove(X, Y, NewX, NewY).
+userMove(X,Y,NewX,NewY):-
+  nl,write('This move is impossible, please, try another one:'),nl,nl,
+  userMove(X,Y,NewX,NewY).
+
 % Returns the User move
 getUserMove(X,Y,NewX,NewY):-
   %TODO: Check between 1-10
-  write('Enter the line number of the pawn you want to move (Y)'),nl,
-  read(Y),
   write('Enter the column number of the pawn you want to move (X)'),nl,
   read(X),
-  write('Enter the line number of the box you want to move to (NewY)'),nl,
-  read(NewY),
+  write('Enter the line number of the pawn you want to move (Y)'),nl,
+  read(Y),
   write('Enter the column number of the box you want to move to (NewX)'),nl,
-  read(NewX).
+  read(NewX),
+  write('Enter the line number of the box you want to move to (NewY)'),nl,
+  read(NewY).
 
 nextPlayer(white,black).
 nextPlayer(black, white).

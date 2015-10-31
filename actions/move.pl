@@ -6,7 +6,7 @@ doMove(X, Y, NewX, NewY) :-
 
 %Check Move
 checkMove(X, Y, NewX, NewY):-
-  write('checkMove'),nl,
+  %write('checkMove'),nl,
   checkBoarders(X, Y),
   checkBoarders(NewX, NewY),
   checkDestinationFree(NewX, NewY),
@@ -29,14 +29,14 @@ checkDestinationFree(NewX, NewY):-
   DestinationPiece == em.
 
 checkPieceMove(wp, X, Y, NewX, NewY):-
-  write('checkMove wp'),nl,
+  %write('checkMove wp'),nl,
   AcceptedX1 is X+1, AcceptedX2 is X-1,
   AcceptedY is Y+1,
   (AcceptedX1 == NewX; AcceptedX2 == NewX),
   AcceptedY == NewY.
 
 checkPieceMove(bp, X, Y, NewX, NewY):-
-  write('checkMove bp'),nl,
+  %write('checkMove bp'),nl,
   AcceptedX1 is X-1, AcceptedX2 is X+1,
   AcceptedY is Y-1,
   (AcceptedX1 == NewX; AcceptedX2 == NewX),

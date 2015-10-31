@@ -18,10 +18,11 @@ playCheckers:-
 
 play(Player):-
   continuePlaying,
-  write('Player '), write(Player), write(' plays.'),nl,
-  getUserMove(X,Y,NewX,NewY),
-  write('Move: X='), write(X), write(', Y='), write(Y), write(', NewX='), write(NewX), write(', NewY='), write(NewY),nl,
+  nl, write('Player '), write(Player), write(' plays.'),nl,
+  userMove(X,Y,NewX,NewY),
+  nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
+  nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer).
   %TODO: handle a wrong turn
@@ -34,8 +35,5 @@ play(Player):-
 %play(Board, X, Y, NewX, NewY, Color):- gameover, !.
 processTurn(Player, X, Y, NewX, NewY):-
   doMove(X, Y, NewX, NewY),
-  printBoard,
   doEat(X, Y, NewX, NewY),
-  printBoard,
-  doQueen(NewX, NewY),
-  printBoard.
+  doQueen(NewX, NewY).
