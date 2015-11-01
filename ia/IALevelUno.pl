@@ -10,7 +10,7 @@
 * -Xdest : X coordinate for the move chosen randomly
 * -Ydest : Y coordinate for the move chosen randomly
 */
-iaLevelUno(Player, X, Y, Xdest, Ydest):-
+iaMove(level1, Player, X, Y, Xdest, Ydest):-
 	getPossibleMoves(Player, PossibleMoves),
 	findBestPlay([X,Y,Xdest,Ydest], PossibleMoves).
 
