@@ -19,13 +19,12 @@ iaLevelUno(Player, X, Y, Xdest, Ydest):-
 */
 findBestPlay([X,Y,Xdest,Ydest], PossibleMoves):-
 	predsort(compareLeveUno, PossibleMoves, SortedMoves), % Sorts a list automatically using predicate compareLeveUno
-	nth0(0, SortedMoves, [X,Y,Xdest,Ydest]). % Get the first element from the SortedMoves list
-
+	last(SortedMoves, [X,Y,Xdest,Ydest]). % Get the max
 /**
 * Compares two scrores
 * -Delta : equals > or < or =
 */
-compareLeveUno(Delta, [X1,Y1,Xdest1,Ydest1], [X2,Y2,Xdest2,Ydest2])
-	worthToMove(X1,Y1,Xdest1,Ydest1,R1),
-	worthToMove(X2,Y2,Xdest2,Ydest2,R2),
+compareLeveUno(Delta, [X1,Y1,Xdest1,Ydest1], [X2,Y2,Xdest2,Ydest2]):-
+	worthToPlay(X1,Y1,Xdest1,Ydest1,R1),
+	worthToPlay(X2,Y2,Xdest2,Ydest2,R2),
 	compare(Delta, R1, R2).
