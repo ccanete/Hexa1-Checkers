@@ -10,7 +10,7 @@
 * -Xdest : X coordinate for the move chosen randomly
 * -Ydest : Y coordinate for the move chosen randomly
 */
-iaLevelUno(Player, X, Y, Xdest, Ydest):-
+iaMove(level1, Player, X, Y, Xdest, Ydest):-
 	getPossibleMoves(Player, PossibleMoves),
 	findBestPlay([X,Y,Xdest,Ydest], PossibleMoves).
 
@@ -25,7 +25,7 @@ findBestPlay([X,Y,Xdest,Ydest], PossibleMoves):-
 * Compares two scrores
 * -Delta : equals > or < or =
 */
-compareLeveUno(Delta, [X1,Y1,Xdest1,Ydest1], [X2,Y2,Xdest2,Ydest2])
+compareLeveUno(Delta, [X1,Y1,Xdest1,Ydest1], [X2,Y2,Xdest2,Ydest2]):-
 	worthToMove(X1,Y1,Xdest1,Ydest1,R1),
 	worthToMove(X2,Y2,Xdest2,Ydest2,R2),
 	compare(Delta, R1, R2).
