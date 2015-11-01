@@ -1,5 +1,18 @@
 %% === Helpers === %%
 
+
+% pieceFacts
+isQueen(bq).
+isQueen(wq).
+isPawn(bp).
+isPawn(wp).
+isWhite(wp).
+isWhite(wq).
+isBlack(bp).
+isBlack(bq).
+isEmpty(em).
+isPiece(Case) :- isPawn(Case); isQueen(Case).
+
 % Return the piece at X, Y coordinate in the Board
 getPiece(X, Y, Piece) :-
   convertCoordinate(X, Y, Pos),
@@ -15,6 +28,15 @@ convertCoordinate(X, Y, Pos):-
 checkBoarders(X, Y) :-
   between(1, 10, X),
   between(1, 10, Y).
+
+% Replace all of the zombies pieces to empties at the end of any game turn
+zombieToEmpty:-
+  b_getval(board, Board),
+  nth0(Pos, Board, zb),
+  replace(Board, Pos, em, NewBoard),
+  b_setval(board, NewBoard),
+  zombieToEmpty.
+zombieToEmpty.
 
 % Replace an element in an array. (Board, Index, NexElement, NewBoard)
 replace([_|T], 0, X, [X|T]).

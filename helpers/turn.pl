@@ -20,7 +20,7 @@ initBoard :-
 
 userMove(X,Y,NewX,NewY):-
   getUserMove(X,Y,NewX,NewY),
-  checkMove(X, Y, NewX, NewY).
+  (checkEat(X, Y, _, _, NewX, NewY);checkMove(X, Y, NewX, NewY)).
 userMove(X,Y,NewX,NewY):-
   nl,write('This move is impossible, please, try another one:'),nl,nl,
   userMove(X,Y,NewX,NewY).
