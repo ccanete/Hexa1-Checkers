@@ -7,15 +7,19 @@
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
 ?- ['helpers/drawBoard.pl'].
-?- ['helpers/util.pl'].
+?- ['helpers/pieceFacts.pl'].
+?- ['helpers/rules.pl'].
 ?- ['helpers/turn.pl'].
+?- ['helpers/util.pl'].
+?- ['ia/helpersIA.pl'].
+?- ['ia/randomIA.pl'].
 
 playCheckers:-
   initBoard,
   printBoard,
-  play(white).
+  play(white, human).
 
-play(Player):-
+play(Player, human):-
   continuePlaying,
   nl, write('Player '), write(Player), write(' plays.'),nl,
   userMove(X,Y,NewX,NewY),
@@ -24,13 +28,16 @@ play(Player):-
   zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer).
+  play(NextPlayer, ia).
   %TODO: handle a wrong turn
-play(Player):-
+play(Player, _):-
   %GameOver for a player
   not(continuePlaying),
   %TODO: Find who has won
   write('GameOver').
+
+play(Player, ia):-
+  playIA(Player, randomIa).
 
 % First, we try to eat, if not possible, we try to move
 processTurn(Player, X, Y, NewX, NewY):-
