@@ -10,7 +10,7 @@
 */
 allowedPlay(Player, X, Y):-
 	getPiece(X, Y, Piece),
-	allowed_play(Player, Piece).
+	allowedPlay(Player, Piece).
 
 allowedPlay(black, bp).
 allowedPlay(black, bq).
