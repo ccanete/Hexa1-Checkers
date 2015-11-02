@@ -14,7 +14,7 @@ getPossibleMoves(Player, PossibleMoves):-
 	findall([X,Y, NewX, NewY], (checkPlay(Player, X, Y, NewX, NewY)), PossibleMoves).
 
 initSimulationBoard:-
-	b_getval(board, Board).
+	b_getval(board, Board),
   b_setval(simulation, Board).
 
 %% Match the IA method
