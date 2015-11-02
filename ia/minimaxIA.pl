@@ -20,6 +20,24 @@ minmaxIA(Player, X, Y, Xdest, Ydest):-
 findMinMax(Player, [X,Y,Xdest,Ydest], PossibleMoves, Score, Depth, Heuristic) :-
 	.
 
+/**
+* evaluateBoard/2
+* Calculte a Player's score
+* -Score : Player's score for a board
+*/
+evaluateBoard(white, Score) :-
+	count(wp, NBwp),
+	count(wq, NBwq),
+	count(bp, NBbp),
+	count(bq, NBbq),
+	Score is 2*NBwq + NBwp - 2*NBbq - NBbp.
+
+evaluateBoard(black, Score) :-
+	count(wp, NBwp),
+	count(wq, NBwq),
+	count(bp, NBbp),
+	count(bq, NBbq),
+	Score is - 2*NBwq - NBwp + 2*NBbq + NBbp.
 
 /**
 * count/2
