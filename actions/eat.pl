@@ -1,14 +1,21 @@
 %% EAT %%
 
+
 % TODO : remplacer tous les zombies par des cases vides à la fin d.un tour
-doEat(X, Y, NewX, NewY) :-
+
+eatOnce(X, Y, NewX, NewY) :-
+  checkEat(X, Y, XEaten,YEaten, NewX, NewY),
   convertCoordinate(X, Y, PosEater),
   convertCoordinate(NewX, NewY, NewPos),
-  checkEat(X, Y, XEaten,YEaten, NewX, NewY),
   convertCoordinate(XEaten, YEaten, PosEaten),
   processEat(PosEater, PosEaten, NewPos).
 %%END OF DO EAT
 
+doEat(X, Y, NewX, NewY) :- eatOnce(X, Y, NewXTemp, NewYTemp), doEat(NewXTemp, NewYTemp, NewX, NewY);
+                           eatOnce(X, Y, NewX, NewY).
+
+
+%%END OF DO EAT (multiEat)
 
 %% PROCESS EAT
 
