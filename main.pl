@@ -7,15 +7,29 @@
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
 ?- ['helpers/drawBoard.pl'].
-?- ['helpers/util.pl'].
+?- ['helpers/pieceFacts.pl'].
+?- ['helpers/rules.pl'].
 ?- ['helpers/turn.pl'].
+?- ['helpers/util.pl'].
+?- ['ia/helpersIA.pl'].
+?- ['ia/randomIA.pl'].
+?- ['ia/IALevelUno.pl'].
+?- ['ia/worthToMove.pl'].
+
+%% Set IA %%
+setIA(0) :-
+    b_setval(iaChoice, randomIA).
+setIA(1) :-
+    b_setval(iaChoice, level1).
 
 playCheckers:-
+  getIALevel(Level),
+  setIA(Level),
   initBoard,
   printBoard,
-  play(white).
+  play(white, human).
 
-play(Player):-
+play(Player, human):-
   continuePlaying,
   nl, write('Player '), write(Player), write(' plays.'),nl,
   userMove(X,Y,NewX,NewY),
@@ -24,18 +38,20 @@ play(Player):-
   zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer).
-  %TODO: handle a wrong turn
-play(Player):-
+  play(NextPlayer, ia).
+play(Player, ia):-
+  b_getval(iaChoice, IAChoice),
+  continuePlaying,
+  nl, write('Player '), write(IAChoice), write(' plays.'),nl,
+  iaMove(IAChoice, Player, X, Y, NewX, NewY),
+  nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
+  processTurn(Player, X, Y, NewX, NewY),
+  zombieToEmpty,
+  nl, printBoard,
+  nextPlayer(Player, NextPlayer),
+  play(NextPlayer, human).
+play(Player, _):-
   %GameOver for a player
   not(continuePlaying),
   %TODO: Find who has won
   write('GameOver').
-
-% First, we try to eat, if not possible, we try to move
-processTurn(Player, X, Y, NewX, NewY):-
-  doEat(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).
-processTurn(Player, X, Y, NewX, NewY):-
-  doMove(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).

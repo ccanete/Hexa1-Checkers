@@ -33,7 +33,8 @@ processEat(PosEater, PosEaten, NewPos) :-
 
 %  règle qui converti les coordonnées en positions pour pouvoir reutiliser la fonction principale
 
-
+checkEat(PosXEater, PosYEater, PosXNextCase, PosYNextCase) :-
+  checkEat(PosXEater, PosYEater, _, _, PosXNextCase, PosYNextCase).
 checkEat(PosXEater, PosYEater, PosXEaten, PosYEaten, PosXNextCase, PosYNextCase) :-
   convertCoordinate(PosXEater, PosYEater, PosEater),
   convertCoordinate(PosXEaten, PosYEaten, PosEaten),
