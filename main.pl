@@ -41,7 +41,7 @@ play(Player, human):-
 play(Player, ia):-
   b_getval(iaChoice, IAChoice),
   continuePlaying,
-  nl, write('Player '), write(randomIa), write(' plays.'),nl,
+  nl, write('Player '), write(IAChoice), write(' plays.'),nl,
   iaMove(IAChoice, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
