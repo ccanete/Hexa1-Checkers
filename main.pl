@@ -14,13 +14,16 @@
 ?- ['ia/helpersIA.pl'].
 ?- ['ia/randomIA.pl'].
 ?- ['ia/IALevelUno.pl'].
-?- ['ia/worthToMove.pl'].
+?- ['ia/minimaxIA.pl'].
+%?- ['ia/worthToMove.pl'].
 
 %% Set IA %%
 setIA(0) :-
     b_setval(iaChoice, randomIA).
 setIA(1) :-
     b_setval(iaChoice, level1).
+setIA(2) :-
+    b_setval(iaChoice, minmax).
 
 playCheckers:-
   getIALevel(Level),

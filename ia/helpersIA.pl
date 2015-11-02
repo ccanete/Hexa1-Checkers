@@ -24,11 +24,12 @@ getIALevel(Level):-
   getIALevel(Level).
 
 checkIALevel(Level):-
-	between(0, 1, Level).
+	between(0, 2, Level).
 
 displayLevels:-
 	write('Level 0: Random AI'),nl,
-	write('Level 1: Easy AI'),nl.
+	write('Level 1: Easy AI'),nl,
+	write('Level 2: Minmax AI'),nl.
 
 /** simulateMove/4
 * Update the virtualBoard with the move simulated
@@ -44,5 +45,5 @@ iaMove(randomIA, Player, X, Y, NewX, NewY):-
 	randomIA(Player, X, Y, NewX, NewY).
 iaMove(level1, Player, X, Y, NewX, NewY):-
 	levelUnoAI(Player, X, Y, NewX, NewY).
-iaMove(level1, Player, X, Y, NewX, NewY):-
+iaMove(minmax, Player, X, Y, NewX, NewY):-
 	minmaxIA(Player, X, Y, NewX, NewY).
