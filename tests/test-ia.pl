@@ -60,6 +60,7 @@ testMinimaxIA:-
   processTurn(black, 5, 7, 6, 6),
   write('Move white, 2, 4, 1, 5'),nl,
   processTurn(white, 2, 4, 1, 5),
+  processTurn(white, 1, 5, 3, 7),
   printBoard,
-  count(wp, X),
-  write('--- Count : ---'),write(X),nl.
+  evaluateBoard(black, X),
+  write('--- White : ---'),write(X),nl.

@@ -47,3 +47,4 @@ iaMove(level1, Player, X, Y, NewX, NewY):-
 	levelUnoAI(Player, X, Y, NewX, NewY).
 iaMove(minmax, Player, X, Y, NewX, NewY):-
 	minmaxIA(Player, X, Y, NewX, NewY).
+

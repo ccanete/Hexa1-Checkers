@@ -37,6 +37,24 @@ findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory,
 	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], Tail, Depth).
 findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [], 0) :- !.
 
+/**
+* evaluateBoard/2
+* Calculte a Player's score
+* -Score : Player's score for a board
+*/
+evaluateBoard(white, Score) :-
+	count(wp, NBwp),
+	count(wq, NBwq),
+	count(bp, NBbp),
+	count(bq, NBbq),
+	Score is 2*NBwq + NBwp - 2*NBbq - NBbp.
+
+evaluateBoard(black, Score) :-
+	count(wp, NBwp),
+	count(wq, NBwq),
+	count(bp, NBbp),
+	count(bq, NBbq),
+	Score is - 2*NBwq - NBwp + 2*NBbq + NBbp.
 
 /**
 * count/2
