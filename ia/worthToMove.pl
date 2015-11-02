@@ -31,8 +31,8 @@ worthToPlay(X, Y, NewX, NewY, R):-
 worthToMove(X, Y, NewX, NewY, R):- 
 	% R - 1 if eaten so that it wont go unless it has to
 	getPiece(X, Y, Piece),
-	% simulateMove(X,Y,NewX,NewY),
-	% processMove()
+	simulateMove(X,Y,NewX,NewY),
+
 	mightBeEaten(NewX, NewY, Piece, R).
 
 	% R + 1 if our piece can eat afterwards
@@ -41,7 +41,7 @@ worthToMove(X, Y, NewX, NewY, R):-
 
 
 
-/**
+/** mightBeEaten/4
 * (WIGHT) Returns 1 if cant be eaten or 0 if can be eaten after moving
 * -R : score
 */
@@ -64,7 +64,7 @@ mightBeEaten(1, _, bp, _, not(em)).
 mightBeEaten(-1, _, _, _, _).
 
 
-/**
+/** mightBeEaten/4
 * (BLACK) Returns 1 if cant be eaten or 0 if can be eaten after moving
 * -R : score
 */
@@ -86,3 +86,5 @@ mightBeEaten(1, _, wp, _, not(em)).
 mightBeEaten(-1, _, _, _, _).
 
 mightBeEaten(_, _, _, -1).
+
+

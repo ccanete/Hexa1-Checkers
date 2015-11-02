@@ -29,3 +29,15 @@ checkIALevel(Level):-
 displayLevels:-
 	write('Level 0: Random AI'),nl,
 	write('Level 1: Easy AI'),nl.
+
+/** simulateMove/4
+* Update the virtualBoard with the move simulated
+*
+*
+*/
+simulateMove(X,Y,NewX,NewY):-
+
+	processMove(X, Y, NewX, NewY).
+
+
+
