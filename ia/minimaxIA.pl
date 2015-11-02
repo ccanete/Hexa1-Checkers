@@ -15,7 +15,8 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 	setState(simulation),
 	printBoard,
 	getPossibleMoves(Player, PossibleMoves),
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2),
+	write(PossibleMoves),nl,
+	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 3),
 	setState(board).
 
 /**
@@ -27,19 +28,19 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 * +MovesHistory : Array of moves to go to this point from the actual Board
 * Depth : Depth level in the graph
 */
+findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], _, _, 0) :- !.
+findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [], _, _) :- !.
 findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth) :-
 	write('findMinMax at level : '), write(Depth),nl,
-	write(MovesHistory),nl,
-	write(Move),nl,
-	append([Move], MovesHistory, NewMovesHistory),
-	write(NewMovesHistory),
-	write("simulateBoard"),nl,
-	%simulateBoard(NewMovesHistory),
-	%getSimulatedPossibleMoves(Player, SimulatedPossibleMoves),
+	append(MovesHistory, [Move], NewMovesHistory),
+	simulateNextBoard(Player, NewMovesHistory),
+	getPossibleMoves(Player, NewPossibleMoves),
+	%write('New Moves : '), write(NewPossibleMoves),
+	nextPlayer(Player, NextPlayer),
 	NewDepth is Depth -1,
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], SimulatedPossibleMoves, NewMovesHistory, NewDepth),
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], Tail, Depth).
-findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [], 0) :- !.
+	findMinMax(NextPlayer, [BestX,BestY,BestXdest,BestYdest], NewPossibleMoves, NewMovesHistory, NewDepth),
+	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], Tail, MovesHistory, Depth).
+
 
 /**
 * evaluateBoard/2

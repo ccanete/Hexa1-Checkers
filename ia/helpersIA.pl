@@ -17,6 +17,21 @@ initSimulationBoard:-
 	b_getval(board, Board),
   b_setval(simulation, Board).
 
+simulateNextBoard(Player, MovesHistory):-
+	% Get the global board with no simulated moves to process all the simulated moves
+	b_getval(board, InitialBoard),
+	% We work on the simulation board
+	setBoard(InitialBoard),
+	% We have to process all the moves in MovesHistory
+	simulateMoveFromList(Player, MovesHistory).
+	
+simulateMoveFromList(_, []):- !.
+simulateMoveFromList(Player, [[X, Y, NewX, NewY]|Tail]):-
+	write("Processe move : "),nl,
+	processTurn(Player, X,Y,NewX,NewY),
+	simulateMoveFromList(Player, Tail).
+
+
 %% Match the IA method
 iaMove(randomIA, Player, X, Y, NewX, NewY):-
 	randomIA(Player, X, Y, NewX, NewY).
