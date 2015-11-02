@@ -10,6 +10,7 @@
 * -Xdest : X coordinate for the move chosen randomly
 * -Ydest : Y coordinate for the move chosen randomly
 */
-iaMove(randomIA, Player, X, Y, Xdest, Ydest):-
+randomIA(Player, X, Y, NewX, NewY):-
+	nl, write('Random IA is playing'),
 	getPossibleMoves(Player, PossibleMoves),
-	random_member([X,Y,Xdest,Ydest], PossibleMoves).
+	random_member([X, Y, NewX, NewY], PossibleMoves).
