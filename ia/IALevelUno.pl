@@ -25,6 +25,8 @@ findBestPlay([X,Y,Xdest,Ydest], PossibleMoves):-
 * -Delta : equals > or < or =
 */
 compareLeveUno(Delta, [X1,Y1,Xdest1,Ydest1], [X2,Y2,Xdest2,Ydest2]):-
+	write('Compare'),
 	worthToPlay(X1,Y1,Xdest1,Ydest1,R1),
 	worthToPlay(X2,Y2,Xdest2,Ydest2,R2),
+	write(R1), write(R2),
 	compare(Delta, R1, R2).
