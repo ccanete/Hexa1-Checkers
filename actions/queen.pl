@@ -18,9 +18,9 @@ processQueen(NewX, NewY) :-
   convertCoordinate(NewX, NewY, NewPos),
   getPiece(NewX, NewY, P),
   convertQueen(P, Q),
-  b_getval(board, Board),
+  getBoard(Board),
   replace(Board, NewPos, Q, NewBoard),
-  b_setval(board, NewBoard).
+  setBoard(NewBoard).
 processQueen(_, _).
 
 %Convert to queen

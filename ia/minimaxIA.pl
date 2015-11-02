@@ -11,8 +11,12 @@
 */
 minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 	write("MINMAX IS PLAYING"),nl,
+	initSimulationBoard,
+	setState(simulation),
+	printBoard,
 	getPossibleMoves(Player, PossibleMoves),
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2).
+	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2),
+	setState(board).
 
 /**
 * findBestPlayMinMax/5
@@ -27,7 +31,7 @@ findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory,
 	write('findMinMax at level : '), write(Depth),nl,
 	write(MovesHistory),nl,
 	write(Move),nl,
-	append([Move], MovesHistory, NewMovesHistory)),
+	append([Move], MovesHistory, NewMovesHistory),
 	write(NewMovesHistory),
 	write("simulateBoard"),nl,
 	%simulateBoard(NewMovesHistory),
@@ -62,7 +66,7 @@ evaluateBoard(black, Score) :-
 *
 */
 count(Piece, Res) :-
-    b_getval(board,List),
+    getBoard(List),
     countL(List, Piece, Res, 0).
 
 countL( [], _, Res, Res) :- !. % for the end of List

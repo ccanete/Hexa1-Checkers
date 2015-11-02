@@ -17,11 +17,11 @@ doEat(X, Y, NewX, NewY) :-
 
 processEat(PosEater, PosEaten, NewPos) :-
   findPiece(PosEater, EaterPiece),
-  b_getval(board, Board),
+  getBoard(Board),
   replace(Board, PosEater, em, NewBoardIntention),
   replace(NewBoardIntention, PosEaten, zb, NewBoardDigestion),
   replace(NewBoardDigestion, NewPos, EaterPiece, NewBoard),
-  b_setval(board, NewBoard).
+  setBoard(NewBoard).
 
 %% CHECK EAT
 
@@ -67,7 +67,7 @@ validPlayerPosition(PosEater, PosEaten, EaterPiece, EatenPiece) :-
 
 findPiece(PosPiece, Piece) :-
   between(0, 99, PosPiece),
-  b_getval(board, Board),
+  getBoard(Board),
   nth0(PosPiece, Board, Piece).
 
 checkOpositePlayablePieces(EaterPiece, EatenPiece) :-
@@ -130,7 +130,7 @@ noPiecesBetween(PosEater, LinesToTarget, DiagonalStepDistance, CurrentLine) :-
   noPiecesBetween(PosEater, LinesToTarget, DiagonalStepDistance, NextLine).
 
 noPieceAt(NextPos) :-
-  b_getval(board, Board),
+  getBoard(Board),
   nth0(NextPos, Board, NextCase),
   isEmpty(NextCase).
 

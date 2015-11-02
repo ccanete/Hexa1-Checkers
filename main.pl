@@ -15,6 +15,10 @@
 ?- ['ia/randomIA.pl'].
 ?- ['ia/IALevelUno.pl'].
 ?- ['ia/minimaxIA.pl'].
+?- ['ia/simulate-actions/queen.pl'].
+?- ['ia/simulate-actions/eat.pl'].
+?- ['ia/simulate-actions/move.pl'].
+?- ['ia/simulate-actions/simulation-helpers.pl'].
 %?- ['ia/worthToMove.pl'].
 
 %% Set IA %%
@@ -28,6 +32,7 @@ setIA(2) :-
 playCheckers:-
   getIALevel(Level),
   setIA(Level),
+  setState(board),
   initBoard,
   printBoard,
   play(white, human).

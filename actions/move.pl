@@ -17,11 +17,11 @@ checkMove(X, Y, NewX, NewY):-
 processMove(X, Y, NewX, NewY) :-
   convertCoordinate(X, Y, Pos),
   convertCoordinate(NewX, NewY, NewPos),
-  b_getval(board, Board),
+  getBoard(Board),
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard),
-  b_setval(board, NewBoard).
+  setBoard(NewBoard).
 
 %Helpers
 checkDestinationFree(NewX, NewY):-

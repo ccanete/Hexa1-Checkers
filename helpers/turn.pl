@@ -50,7 +50,7 @@ nextPlayer(black, white).
 
 % Check if a player has won
 continuePlaying:-
-  b_getval(board, Board),
+  getBoard(Board),
   continuePlaying(Board, white),
   continuePlaying(Board, black).
 continuePlaying(Board, white):-
