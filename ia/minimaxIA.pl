@@ -9,7 +9,7 @@
 * +X, +Y : piece
 * -Xdest, -Ydest : best move found
 */
-iaMove(minmax, Player, X, Y, Xdest, Ydest):-
+minmaxIA(Player, X, Y, Xdest, Ydest):-
 	getPossibleMoves(Player, PossibleMoves),
 	findMinMax([X,Y,Xdest,Ydest], PossibleMoves).
 
@@ -17,7 +17,7 @@ iaMove(minmax, Player, X, Y, Xdest, Ydest):-
 * findBestPlayMinMax/2
 * Finds the minMax incremently
 */
-findBestPlayMinMax(Player, [X,Y,Xdest,Ydest], PossibleMoves, Score, Depth, Heuristic) :-
+findMinMax(Player, [X,Y,Xdest,Ydest], PossibleMoves, Score, Depth, Heuristic) :-
 	.
 
 
