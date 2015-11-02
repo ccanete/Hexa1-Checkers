@@ -14,6 +14,7 @@
 ?- ['ia/helpersIA.pl'].
 ?- ['ia/randomIA.pl'].
 ?- ['ia/IALevelUno.pl'].
+?- ['ia/worthToMove.pl'].
 
 %% Set IA %%
 setIA(0) :-

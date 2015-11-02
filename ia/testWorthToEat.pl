@@ -12,7 +12,7 @@ worthToEat(Board, BP, WP, R):-
 	simulateEat(Board, BP, WP, NewBoard), 
 	canEat(NewBoard, WP, BP, Ry), 
 	Rx - Ry > 0, 
-	R is 0; 
+	R is 0;
 	canEat(Board, BP,WP, Rx), 
 	simulateEat(Board, BP, WP, NewBoard), 
 	becomesQueen(NewBoard, BP, Ry), 
