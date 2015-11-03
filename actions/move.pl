@@ -3,6 +3,7 @@
 doMove(X, Y, NewX, NewY) :-
   checkMove(X, Y, NewX, NewY),
   processMove(X, Y, NewX, NewY).
+doMove(_, _, _, _) :- !.
 
 %Check Move
 checkMove(X, Y, NewX, NewY):-
@@ -48,7 +49,7 @@ checkPieceMove(bq, X, Y, NewX, NewY):-
   AcceptedY1 is Y-1, AcceptedY2 is Y+1,
   (AcceptedX1 == NewX; AcceptedX2 == NewX),
   (AcceptedY1 == NewY; AcceptedY2 == NewY).
-
+checkPieceMove(bq, X, Y, _, _):- !.
 
 checkPieceMove(wq, X, Y, NewX, NewY):-
 %write('checkMove bp'),nl,
@@ -56,3 +57,4 @@ AcceptedX1 is X-1, AcceptedX2 is X+1,
 AcceptedY1 is Y-1, AcceptedY2 is Y+1,
 (AcceptedX1 == NewX; AcceptedX2 == NewX),
 (AcceptedY1 == NewY; AcceptedY2 == NewY).
+checkPieceMove(wq, X, Y, _, _):- !.
