@@ -3,6 +3,7 @@
 doMove(X, Y, NewX, NewY) :-
   checkMove(X, Y, NewX, NewY),
   processMove(X, Y, NewX, NewY).
+doMove(_, _, _, _) :- !.
 
 %Check Move
 checkMove(X, Y, NewX, NewY):-

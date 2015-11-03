@@ -74,4 +74,10 @@ testCheckMoveQueen :-
   write('OK'),nl,
   printBoard,
   processTurn(black,1, 7, 5, 3),
+  printBoard,
+
+  processTurn(white, 3, 3, 4, 4),
+  processTurn(white, 1, 5, 2, 6),
+  processTurn(black,5, 7, 4, 6),
+
   printBoard.
