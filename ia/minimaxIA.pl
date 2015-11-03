@@ -30,8 +30,7 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 % Deepest level (leef level), need to get the board evaluation and return it.
 findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, 0, LeefScore, _) :-
 	simulateNextBoard(Player, MovesHistory),
-	evaluateBoard(Player, LeefScore),
-	write(LeefScore).
+	evaluateBoard(Player, LeefScore).
 findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [], _, _, end, _) :- !.
 findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth, BestScore, MoveToProcess) :-
 	%write('findMinMax at level : '), write(Depth),nl,
@@ -50,14 +49,13 @@ findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], Move
 	findMoveToProcess(LeefScore, Score, BestScore, [Move], Tail, MoveToProcess).
 
 % Maximiser
+findBestScore(_, _, end, Score, Score):- !.
 findBestScore(_, _, LeefScore, end, LeefScore):- !.
-%findBestScore(_, _, end, Score, Score):- !.
 findBestScore(Player, Player, LeefScore, Score, LeefScore):-
 	LeefScore > Score,!.
 findBestScore(Player, Player, LeefScore, Score, Score).
 % Minimiser
 findBestScore(Player, _, LeefScore, Score, Score):-
-	%write(LeefScore), write(, ), write(Score),nl,
 	LeefScore > Score,!.
 findBestScore(Player, _, LeefScore, Score, LeefScore).
 
