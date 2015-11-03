@@ -82,6 +82,11 @@ findBestMove(_, _, _, null, NewMove, NewMove).
 findBestMove(Score, _, Score, MoveToProcess, _, MoveToProcess).
 findBestMove(_, NewScore, NewScore, _, NewMove, NewMove).
 
+%% TODO: AMELIORATIONS
+%% Under a number of pieces, should always eat
+%% If 1 piece left, should always eat if possible
+%% If ennemi closed to a queen piece, should be eaten !
+
 /**
 * evaluateBoard/2
 * Calculte a Player's score
