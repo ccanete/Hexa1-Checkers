@@ -49,15 +49,6 @@ checkBoarders(X, Y) :-
   between(1, 10, X),
   between(1, 10, Y).
 
-% Replace all of the zombies pieces to empties at the end of any game turn
-zombieToEmpty:-
-  getBoard(Board),
-  nth0(Pos, Board, zb),
-  replace(Board, Pos, em, NewBoard),
-  setBoard(NewBoard),
-  zombieToEmpty.
-zombieToEmpty.
-
 % Replace an element in an array. (Board, Index, NexElement, NewBoard)
 replace([_|T], 0, X, [X|T]).
 replace([H|T], I, X, [H|R]):- I > -1, NI is I-1, replace(T, NI, X, R), !.
