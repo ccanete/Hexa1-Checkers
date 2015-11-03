@@ -16,7 +16,7 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 	printBoard,
 	getPossibleMoves(Player, PossibleMoves),
 	write(PossibleMoves),nl,
-	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2),
+	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2, Score, [[BestX, BestY, BestXdest, BestYdest]|_]),
 	setState(board).
 
 /**
@@ -27,18 +27,17 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 * -[BestX,BestY,BestXdest,BestYdest] : Set of best coordinates
 * +PossibleMoves=[Move|Tail] : Possibles moves for the current depth level, Move is the move for the next point in the graph
 * +MovesHistory : Array of moves to go to this point from the actual Board
-* Depth : Depth level in the graph
+* +Depth : Depth level in the graph
+* -Score : The score of the leef
 */
 % Deepest level (leef level), need to get the board evaluation and return it.
-findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], MovesHistory, _, 0) :-
-	write('findMinMax at level : '), write("0"),nl,
-	simulateNextBoard(Player, NewMovesHistory),
-	%printBoard,
-	evaluateBoard(Player, Score),
-	write(Score).
-findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [], _, _) :- !.
-findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth) :-
-	write('findMinMax at level : '), write(Depth),nl,
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, 0, LeefScore, _) :-
+	simulateNextBoard(Player, MovesHistory),
+	evaluateBoard(Player, LeefScore),
+	write(LeefScore).
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [], _, _, end, _) :- !.
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth, BestScore, MoveToProcess) :-
+	%write('findMinMax at level : '), write(Depth),nl,
 	% Add this possible move to the move history for next leefs
 	append(MovesHistory, [Move], NewMovesHistory),
 	% Player because Player process the first move
@@ -47,9 +46,27 @@ findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], Move
 	% Get the possible moves of the next play (so, next player)
 	getPossibleMoves(NextPlayer, NewPossibleMoves),
 	NewDepth is Depth -1,
-	findMinMax(Player, NextPlayer, [BestX,BestY,BestXdest,BestYdest], NewPossibleMoves, NewMovesHistory, NewDepth),
-	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], Tail, MovesHistory, Depth).
+	findMinMax(Player, NextPlayer, [BestX,BestY,BestXdest,BestYdest], NewPossibleMoves, NewMovesHistory, NewDepth, LeefScore, _),
+	% Get the score of the leef
+	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], Tail, MovesHistory, Depth, Score, _),
+	findBestScore(Player, Playing, LeefScore, Score, BestScore),
+	findMoveToProcess(LeefScore, Score, BestScore, [Move], Tail, MoveToProcess).
 
+% Maximiser
+findBestScore(_, _, LeefScore, end, LeefScore):- !.
+findBestScore(Player, Player, LeefScore, Score, LeefScore):-
+	LeefScore > Score,!.
+findBestScore(Player, Player, LeefScore, Score, Score).
+% Minimiser
+findBestScore(Player, _, LeefScore, Score, Score):-
+	write(LeefScore), write(, ), write(Score),nl,
+	LeefScore > Score,!.
+findBestScore(Player, _, LeefScore, Score, LeefScore).
+
+%% Si = aléatoires entre les deux
+
+findMoveToProcess(LeefScore, _, LeefScore, [Move], _, [Move]).
+findMoveToProcess(_, Score, Score, _, Tail, Tail).
 
 /**
 * evaluateBoard/2
