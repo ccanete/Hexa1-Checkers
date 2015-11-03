@@ -24,12 +24,14 @@ simulateNextBoard(Player, MovesHistory):-
 	setBoard(InitialBoard),
 	% We have to process all the moves in MovesHistory
 	simulateMoveFromList(Player, MovesHistory).
-	
+
 simulateMoveFromList(_, []):- !.
 simulateMoveFromList(Player, [[X, Y, NewX, NewY]|Tail]):-
 	write("Processe move : "),nl,
+	nl, write(Player), write(' moves: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
 	processTurn(Player, X,Y,NewX,NewY),
-	simulateMoveFromList(Player, Tail).
+	nextPlayer(Player, NextPlayer),
+	simulateMoveFromList(NextPlayer, Tail).
 
 
 %% Match the IA method

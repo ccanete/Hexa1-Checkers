@@ -16,30 +16,39 @@ minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
 	printBoard,
 	getPossibleMoves(Player, PossibleMoves),
 	write(PossibleMoves),nl,
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 3),
+	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2),
 	setState(board).
 
 /**
 * findBestPlayMinMax/5
 * Finds the minMax incremently
 * +Player : players color for the ai
+* +Playing : Player who plays the simulate turn
 * -[BestX,BestY,BestXdest,BestYdest] : Set of best coordinates
 * +PossibleMoves=[Move|Tail] : Possibles moves for the current depth level, Move is the move for the next point in the graph
 * +MovesHistory : Array of moves to go to this point from the actual Board
 * Depth : Depth level in the graph
 */
-findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], _, _, 0) :- !.
-findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [], _, _) :- !.
-findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth) :-
-	write('findMinMax at level : '), write(Depth),nl,
-	append(MovesHistory, [Move], NewMovesHistory),
+% Deepest level (leef level), need to get the board evaluation and return it.
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], MovesHistory, _, 0) :-
+	write('findMinMax at level : '), write("0"),nl,
 	simulateNextBoard(Player, NewMovesHistory),
-	getPossibleMoves(Player, NewPossibleMoves),
-	%write('New Moves : '), write(NewPossibleMoves),
-	nextPlayer(Player, NextPlayer),
+	%printBoard,
+	evaluateBoard(Player, Score),
+	write(Score).
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [], _, _) :- !.
+findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], MovesHistory, Depth) :-
+	write('findMinMax at level : '), write(Depth),nl,
+	% Add this possible move to the move history for next leefs
+	append(MovesHistory, [Move], NewMovesHistory),
+	% Player because Player process the first move
+	simulateNextBoard(Player, NewMovesHistory),
+	nextPlayer(Playing, NextPlayer),
+	% Get the possible moves of the next play (so, next player)
+	getPossibleMoves(NextPlayer, NewPossibleMoves),
 	NewDepth is Depth -1,
-	findMinMax(NextPlayer, [BestX,BestY,BestXdest,BestYdest], NewPossibleMoves, NewMovesHistory, NewDepth),
-	findMinMax(Player, [BestX,BestY,BestXdest,BestYdest], Tail, MovesHistory, Depth).
+	findMinMax(Player, NextPlayer, [BestX,BestY,BestXdest,BestYdest], NewPossibleMoves, NewMovesHistory, NewDepth),
+	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], Tail, MovesHistory, Depth).
 
 
 /**
