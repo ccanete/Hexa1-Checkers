@@ -54,7 +54,7 @@ zombieToEmpty:-
   getBoard(Board),
   nth0(Pos, Board, zb),
   replace(Board, Pos, em, NewBoard),
-  b_setval(board, NewBoard),
+  setBoard(NewBoard),
   zombieToEmpty.
 zombieToEmpty.
 

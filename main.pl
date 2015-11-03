@@ -7,7 +7,6 @@
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
 ?- ['helpers/drawBoard.pl'].
-?- ['helpers/pieceFacts.pl'].
 ?- ['helpers/rules.pl'].
 ?- ['helpers/turn.pl'].
 ?- ['helpers/util.pl'].
@@ -39,10 +38,11 @@ play(Player, human):-
   userMove(X,Y,NewX,NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
-  zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer, ia).
+
+
 play(Player, minmax):-
   %b_getval(iaChoice, IAChoice),
   continuePlaying,
@@ -53,6 +53,7 @@ play(Player, minmax):-
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer, randomIA).
+
 play(Player, randomIA):-
   b_getval(iaChoice, IAChoice),
   continuePlaying,
@@ -60,10 +61,10 @@ play(Player, randomIA):-
   iaMove(randomIA, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
-  zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer, minmax).
+
 play(Player, _):-
   %GameOver for a player
   not(continuePlaying),

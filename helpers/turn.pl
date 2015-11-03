@@ -21,10 +21,12 @@ initBoard :-
 % First, we try to eat, if not possible, we try to move
 processTurn(Player, X, Y, NewX, NewY):-
   doEat(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).
+  doQueen(NewX, NewY),
+  zombieToEmpty.
 processTurn(Player, X, Y, NewX, NewY):-
   doMove(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).
+  doQueen(NewX, NewY),
+  zombieToEmpty.
 
 userMove(X,Y,NewX,NewY):-
   getUserMove(X,Y,NewX,NewY),
@@ -47,6 +49,15 @@ getUserMove(X,Y,NewX,NewY):-
 
 nextPlayer(white,black).
 nextPlayer(black, white).
+
+% Replace all of the zombies pieces to empties at the end of any game turn
+zombieToEmpty:-
+  getBoard(Board),
+  nth0(Pos, Board, zb),
+  replace(Board, Pos, em, NewBoard),
+  setBoard(NewBoard),
+  zombieToEmpty.
+zombieToEmpty.
 
 % Check if a player has won
 continuePlaying:-
