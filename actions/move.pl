@@ -41,3 +41,18 @@ checkPieceMove(bp, X, Y, NewX, NewY):-
   AcceptedY is Y-1,
   (AcceptedX1 == NewX; AcceptedX2 == NewX),
   AcceptedY == NewY.
+
+checkPieceMove(bq, X, Y, NewX, NewY):-
+  %write('checkMove bp'),nl,
+  AcceptedX1 is X-1, AcceptedX2 is X+1,
+  AcceptedY1 is Y-1, AcceptedY2 is Y+1,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
+  (AcceptedY1 == NewY; AcceptedY2 == NewY).
+
+
+checkPieceMove(wq, X, Y, NewX, NewY):-
+%write('checkMove bp'),nl,
+AcceptedX1 is X-1, AcceptedX2 is X+1,
+AcceptedY1 is Y-1, AcceptedY2 is Y+1,
+(AcceptedX1 == NewX; AcceptedX2 == NewX),
+(AcceptedY1 == NewY; AcceptedY2 == NewY).

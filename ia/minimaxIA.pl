@@ -10,12 +10,9 @@
 * -Xdest, -Ydest : best move found
 */
 minmaxIA(Player, BestX, BestY, BestXdest, BestYdest):-
-	write("MINMAX IS PLAYING"),nl,
 	initSimulationBoard,
 	setState(simulation),
-	printBoard,
 	getPossibleMoves(Player, PossibleMoves),
-	write(PossibleMoves),nl,
 	findMinMax(Player, Player, [BestX,BestY,BestXdest,BestYdest], PossibleMoves, [], 2, Score, [[BestX, BestY, BestXdest, BestYdest]|_]),
 	setState(board).
 
@@ -54,12 +51,13 @@ findMinMax(Player, Playing, [BestX,BestY,BestXdest,BestYdest], [Move|Tail], Move
 
 % Maximiser
 findBestScore(_, _, LeefScore, end, LeefScore):- !.
+%findBestScore(_, _, end, Score, Score):- !.
 findBestScore(Player, Player, LeefScore, Score, LeefScore):-
 	LeefScore > Score,!.
 findBestScore(Player, Player, LeefScore, Score, Score).
 % Minimiser
 findBestScore(Player, _, LeefScore, Score, Score):-
-	write(LeefScore), write(, ), write(Score),nl,
+	%write(LeefScore), write(, ), write(Score),nl,
 	LeefScore > Score,!.
 findBestScore(Player, _, LeefScore, Score, LeefScore).
 

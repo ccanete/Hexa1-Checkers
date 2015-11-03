@@ -31,7 +31,7 @@ playCheckers:-
   setState(board),
   initBoard,
   printBoard,
-  play(white, human).
+  play(white, minmax).
 
 play(Player, human):-
   continuePlaying,
@@ -43,19 +43,30 @@ play(Player, human):-
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
   play(NextPlayer, ia).
-play(Player, ia):-
+play(Player, minmax):-
+  %b_getval(iaChoice, IAChoice),
+  continuePlaying,
+  nl, write('Player '), write("minmax"), write(' plays.'),nl,
+  iaMove(minmax, Player, X, Y, NewX, NewY),
+  nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
+  processTurn(Player, X, Y, NewX, NewY),
+  nl, printBoard,
+  nextPlayer(Player, NextPlayer),
+  play(NextPlayer, randomIA).
+play(Player, randomIA):-
   b_getval(iaChoice, IAChoice),
   continuePlaying,
-  nl, write('Player '), write(IAChoice), write(' plays.'),nl,
-  iaMove(IAChoice, Player, X, Y, NewX, NewY),
+  nl, write('Player '), write("randomIA"), write(' plays.'),nl,
+  iaMove(randomIA, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
   zombieToEmpty,
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer, human).
+  play(NextPlayer, minmax).
 play(Player, _):-
   %GameOver for a player
   not(continuePlaying),
-  %TODO: Find who has won
-  write('GameOver').
+  %getWinner(Winner),
+  write('GameOver'),nl.
+  %write(Winner), write(" wins! Congratulations!").

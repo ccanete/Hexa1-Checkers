@@ -57,3 +57,15 @@ continuePlaying(Board, white):-
   member(wp, Board),!;member(wq, Board),!.
 continuePlaying(Board, black):-
   member(bp, Board),!;member(bq, Board),!.
+
+% Check if a player has won
+getWinner(Winner):-
+  getBoard(Board),
+  getWinner(Board, white, Winner),
+  getWinner(Board, black, Winner).
+getWinner(Board, white, black):-
+  not(member(wp, Board)),
+  not(member(wq, Board)).
+getWinner(Board, black, white):-
+  not(member(bp, Board)),
+  not(member(bq, Board)).

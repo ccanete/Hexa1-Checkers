@@ -27,8 +27,6 @@ simulateNextBoard(Player, MovesHistory):-
 
 simulateMoveFromList(_, []):- !.
 simulateMoveFromList(Player, [[X, Y, NewX, NewY]|Tail]):-
-	%write("Processe move : "),nl,
-	%nl, write(Player), write(' moves: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
 	processTurn(Player, X,Y,NewX,NewY),
 	nextPlayer(Player, NextPlayer),
 	simulateMoveFromList(NextPlayer, Tail).
