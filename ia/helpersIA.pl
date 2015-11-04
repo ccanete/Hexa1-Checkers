@@ -39,6 +39,9 @@ iaMove(level1, Player, X, Y, NewX, NewY):-
 	levelUnoAI(Player, X, Y, NewX, NewY).
 iaMove(minmax, Player, X, Y, NewX, NewY):-
 	minmaxIA(Player, X, Y, NewX, NewY).
+iaMove(alphabeta, Player, X, Y, NewX, NewY):-
+	alphabetaIA(Player, X, Y, NewX, NewY).
+
 
 %% Functions to set the IA level %%
 getIALevel(Level):-
@@ -51,9 +54,10 @@ getIALevel(Level):-
   getIALevel(Level).
 
 checkIALevel(Level):-
-	between(0, 2, Level).
+	between(0, 3, Level).
 
 displayLevels:-
 	write('Level 0: Random AI'),nl,
 	write('Level 1: Easy AI'),nl,
-	write('Level 2: Minmax AI'),nl.
+	write('Level 2: Minmax AI'),nl,
+	write('Level 3: AlphaBeta AI'),nl.
