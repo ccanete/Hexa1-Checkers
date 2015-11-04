@@ -27,6 +27,7 @@ processTurn(Player, X, Y, NewX, NewY):-
   doMove(X, Y, NewX, NewY),
   doQueen(NewX, NewY),
   zombieToEmpty.
+processTurn(_,_,_,_,_):- !.
 
 userMove(X,Y,NewX,NewY):-
   getUserMove(X,Y,NewX,NewY),
