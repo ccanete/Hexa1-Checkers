@@ -34,6 +34,11 @@ findMinMax(Player, _, _, MovesHistory, 0, _, _, LeefScore, LeefMove) :-
 	simulateNextBoard(Player, MovesHistory),
 	evaluateBoard(Player, LeefScore),
 	nth0(0, MovesHistory, LeefMove).
+%% If no more move because a player wins
+findMinMax(Player, Player, [], MovesHistory, _, null, null, -10000, LeefMove):-
+	nth0(0, MovesHistory, LeefMove).
+findMinMax(Player, _, [], MovesHistory, _, null, null, 10000, LeefMove):-
+	nth0(0, MovesHistory, LeefMove).
 %% Return to the previous level the best score at this depth
 findMinMax(_, _, [], _, _, Score, MoveToProcess, Score, MoveToProcess):- !.
 %% Recursive function that go throught the tree algorithm
@@ -84,7 +89,6 @@ findBestMove(_, NewScore, NewScore, _, NewMove, NewMove).
 
 %% TODO: AMELIORATIONS
 %% Under a number of pieces, should always eat
-%% If 1 piece left, should always eat if possible
 %% If ennemi closed to a queen piece, should be eaten !
 
 /**
@@ -92,37 +96,80 @@ findBestMove(_, NewScore, NewScore, _, NewMove, NewMove).
 * Calculte a Player's score
 * -Score : Player's score for a board
 */
-evaluateBoard(white, Score) :-
-	count(wp, NBwp),
-	count(wq, NBwq),
-	count(bp, NBbp),
-	count(bq, NBbq),
-	Score is 2*NBwq + NBwp - 2*NBbq - NBbp.
+evaluateBoard(Player, Score) :-
+	countPieces(NBwp, NBwq, NBbp, NBbq),
+	%countPieceOnQueenBox(wpOnQueen, NBwpOnQueen),
+	%countPieceOnQueenBox(bpOnQueen, NBbpOnQueen),
+	evaluateBoard(Player, Score, NBwp,NBwq, NBbp ,NBbq, 0, 0).
 
-evaluateBoard(black, Score) :-
-	count(wp, NBwp),
-	count(wq, NBwq),
-	count(bp, NBbp),
-	count(bq, NBbq),
-	Score is - 2*NBwq - NBwp + 2*NBbq + NBbp.
+evaluateBoard(white, 10000, _,_, 0 ,0, _, _).
+evaluateBoard(white, -10000, 0, 0, _, _, _, _).
+evaluateBoard(black, 10000, 0, 0, _, _, _, _).
+evaluateBoard(black, -10000, _,_, 0 ,0, _, _).
+
+evaluateBoard(white, Score, NBwp,NBwq, NBbp ,NBbq, NBwpOnQueen, NBbpOnQueen):-
+	Score is 3*NBwq - 3*NBbq + 2*NBwpOnQueen - 2*NBbpOnQueen + NBwp - NBbp.
+
+evaluateBoard(black, Score, NBwp,NBwq, NBbp ,NBbq, NBwpOnQueen, NBbpOnQueen):-
+	Score is - 3*NBwq + 3*NBbq - 2*NBwpOnQueen + 2*NBbpOnQueen - NBwp + NBbp.
+
+
+/**
+* countPieceOnQueen/2
+* counts the number of piece on a queen box
+*
+*/
+countPieceOnQueenBox(white, Res):-
+	getBoard(Board),
+	countPieceBetweenIndex(Board, wp, Res, 0, 1, 10, 1).
+countPieceOnQueenBox(black, Res):-
+	getBoard(Board),
+	countPieceBetweenIndex(Board, bp, Res, 0, 91, 100, 1).
+
+countPieceBetweenIndex([Piece|Tail], Piece, Res, Counter, MinIndex, MaxIndex, Index):-
+	!,
+	between(MinIndex, MaxIndex, Index),
+	countPieceBetweenIndex(Tail, Piece, Res, Counter+1, MinIndex, MaxIndex, Index+1).
+countPieceBetweenIndex([_|Tail], Piece, Res, Counter, MinIndex, MaxIndex, Index):-
+	between(MinIndex, MaxIndex, Index),
+	countPieceBetweenIndex(Tail, Piece, Res, Counter, MinIndex, MaxIndex, Index+1).
+countPieceBetweenIndex([_|Tail], Piece, Res, Counter, MinIndex, MaxIndex, Index):-
+	countPieceBetweenIndex(Tail, Piece, Res, Counter, MinIndex, MaxIndex, Index+1).
+% for the end of List
+countPieceBetweenIndex([], _, Counter, Counter, _, _, _) :- !.
 
 /**
 * count/2
 * counts the number Piece are on the board
 *
 */
-count(Piece, Res) :-
-    getBoard(List),
-    countL(List, Piece, Res, 0).
+countPieces(NBwp, NBwq, NBbp, NBbq) :-
+  getBoard(List),
+  countL(List, NBwp, NBwq, NBbp, NBbq, 0, 0, 0, 0).
 
-countL( [], _, Res, Res) :- !. % for the end of List
-
+countL( [], NBwp, NBwq, NBbp, NBbq, NBwp, NBwq, NBbp, NBbq):-	!.
 % When Piece is found
-countL( [Piece|Xs], Piece, Res, Counter) :-
-    !,
-    Counter1 is Counter + 1,
-    countL(Xs, Piece, Res, Counter1).
+countL( [wp|Xs], NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq) :-
+	!,
+	NewCountNBwp is CountNBwp + 1,
+  countL(Xs, NBwp, NBwq, NBbp, NBbq, NewCountNBwp, CountNBwq, CountNBbp, CountNBbq).
+
+countL( [wq|Xs], NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq) :-
+	!,
+	NewCountNBwq is CountNBwq + 1,
+  countL(Xs, NBwp, NBwq, NBbp, NBbq, CountNBwp, NewCountNBwq, CountNBbp, CountNBbq).
+
+countL( [bp|Xs], NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq) :-
+	!,
+	NewCountNBbp is CountNBbp + 1,
+  countL(Xs, NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, NewCountNBbp, CountNBbq).
+
+countL( [bq|Xs], NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq) :-
+	!,
+	NewCountNBbq is CountNBbq + 1,
+  countL(Xs, NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, NewCountNBbq).
 
 % When Piece is not found
-countL( [_|Xs], Piece, Res, Counter) :-
-    countL(Xs, Piece, Res, Counter).
+countL( [_|Xs], NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq) :-
+	%write("null"),
+  countL(Xs, NBwp, NBwq, NBbp, NBbq, CountNBwp, CountNBwq, CountNBbp, CountNBbq).
