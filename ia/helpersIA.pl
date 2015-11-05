@@ -41,23 +41,3 @@ iaMove(minmax, Player, X, Y, NewX, NewY):-
 	minmaxIA(Player, X, Y, NewX, NewY).
 iaMove(alphabeta, Player, X, Y, NewX, NewY):-
 	alphabetaIA(Player, X, Y, NewX, NewY).
-
-
-%% Functions to set the IA level %%
-getIALevel(Level):-
-  nl,write('Please choose an AI level :.'),nl,
-	displayLevels,
-	read(Level),
-  checkIALevel(Level).
-getIALevel(Level):-
-  nl,write('Sorry, this AI level does not exist.'),nl,
-  getIALevel(Level).
-
-checkIALevel(Level):-
-	between(0, 3, Level).
-
-displayLevels:-
-	write('Level 0: Random AI'),nl,
-	write('Level 1: Easy AI'),nl,
-	write('Level 2: Minmax AI'),nl,
-	write('Level 3: AlphaBeta AI'),nl.
