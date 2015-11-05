@@ -33,7 +33,7 @@ playCheckers:-
   setState(board),
   initBoard,
   printBoard,
-  play(white, alphabeta).
+  play(white, minmax).
 
 play(Player, human):-
   continuePlaying,
@@ -59,8 +59,8 @@ play(Player, alphabeta):-
 play(Player, minmax):-
   %b_getval(iaChoice, IAChoice),
   continuePlaying,
-  nl, write('Player '), write("alphabeta"), write(' plays the .'), write(Player), nl,
-  iaMove(alphabeta, Player, X, Y, NewX, NewY),
+  nl, write('Player '), write("minmax"), write(' plays the .'), write(Player), nl,
+  iaMove(minmax, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
   nl, printBoard,
@@ -76,7 +76,7 @@ play(Player, randomIA):-
   processTurn(Player, X, Y, NewX, NewY),
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer, alphabeta).
+  play(NextPlayer, minmax).
 
 play(Player, _):-
   %GameOver for a player
