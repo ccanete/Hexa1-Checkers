@@ -119,6 +119,7 @@ evaluateBoard(black, Score, NBwp,NBwq, NBbp ,NBbq, NBwpOnQueen, NBbpOnQueen):-
 * counts the number of piece on a queen box
 *
 */
+/*
 countPieceOnQueenBox(white, Res):-
 	getBoard(Board),
 	countPieceBetweenIndex(Board, wp, Res, 0, 1, 10, 1).
@@ -137,7 +138,7 @@ countPieceBetweenIndex([_|Tail], Piece, Res, Counter, MinIndex, MaxIndex, Index)
 	countPieceBetweenIndex(Tail, Piece, Res, Counter, MinIndex, MaxIndex, Index+1).
 % for the end of List
 countPieceBetweenIndex([], _, Counter, Counter, _, _, _) :- !.
-
+*/
 /**
 * count/2
 * counts the number Piece are on the board
