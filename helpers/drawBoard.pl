@@ -7,14 +7,16 @@ printBoard :-
   write('|--+--+--+--+--+--+--+--+--+--+--|'), nl,
   printBoard(1), !.
 % Calls the PrintLine function and iterates
+printBoard(10) :-
+  printLine(Y),
+  printGrid,
+  nl,!.
 printBoard(Y) :-
   printLine(Y),
   printGrid,
   NextLine is Y + 1,
   printBoard(NextLine).
 % End of the loop
-printBoard(11) :-
-  nl,!.
 
 % Print a seperation line
 printGrid :-
@@ -25,6 +27,11 @@ printLine(Y) :-
    write('|'),
    printLine(Y, 0).
 % Print a piece of the line then recursiv call
+
+printLine(10, 0) :-
+  write(10),
+  write('|'),
+  printLine(10, 1).
 printLine(Y, 0) :-
   write(Y),
   write(' |'),
