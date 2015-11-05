@@ -34,19 +34,19 @@ playCheckers:-
 
 play(Player, human):-
   continuePlaying,
-  nl, write('Player '), write(Player), write(' plays.'),nl,
+  nl, write('Player '), write(Player), write(' plays the .'),write(Player),nl,
   userMove(X,Y,NewX,NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer, ia).
+  play(NextPlayer, minmax).
 
 
 play(Player, minmax):-
   %b_getval(iaChoice, IAChoice),
   continuePlaying,
-  nl, write('Player '), write("minmax"), write(' plays.'),nl,
+  nl, write('Player '), write("minmax"), write(' plays the .'), write(Player), nl,
   iaMove(minmax, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
