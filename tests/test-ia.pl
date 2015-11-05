@@ -21,7 +21,6 @@ testRandomIA:-
 testLevelUno:-
   initBoard,
   printBoard,
-  %% test randomIA
   write('--- Test IA level uno ---'),nl,
   write('Move black, 1, 7, 2, 6'),nl,
   processTurn(black, 1, 7, 2, 6),
@@ -40,3 +39,27 @@ testLevelUno:-
   write('--- Y ---'),write(Y),nl,
   write('--- Xdest ---'),write(Xdest),nl,
   write('--- Ydest ---'),write(Ydest),nl.
+
+
+/*************************************
+         TEST IA MINIMAX
+*************************************/
+
+testMinimaxIA:-
+  initBoard,
+  printBoard,
+  write('--- Test minimax IA ---'),nl,
+  write('Move black, 1, 7, 2, 6'),nl,
+  processTurn(black, 1, 7, 2, 6),
+  printBoard,
+  write('Move black, 3, 7, 4, 6'),nl,
+  processTurn(black, 3, 7, 4, 6),
+  printBoard,
+  write('Move black, 5, 7, 6, 6'),nl,
+  processTurn(black, 5, 7, 6, 6),
+  write('Move white, 2, 4, 1, 5'),nl,
+  processTurn(white, 2, 4, 1, 5),
+  processTurn(white, 1, 5, 3, 7),
+  printBoard,
+  evaluateBoard(black, X),
+  write('--- White : ---'),write(X),nl.

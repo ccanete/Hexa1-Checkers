@@ -17,11 +17,11 @@ checkMove(X, Y, NewX, NewY):-
 processMove(X, Y, NewX, NewY) :-
   convertCoordinate(X, Y, Pos),
   convertCoordinate(NewX, NewY, NewPos),
-  b_getval(board, Board),
+  getBoard(Board),
   nth0(Pos, Board, Piece),
   replace(Board, Pos, em, TempBoard),
   replace(TempBoard, NewPos, Piece, NewBoard),
-  b_setval(board, NewBoard).
+  setBoard(NewBoard).
 
 %Helpers
 checkDestinationFree(NewX, NewY):-
@@ -41,3 +41,19 @@ checkPieceMove(bp, X, Y, NewX, NewY):-
   AcceptedY is Y-1,
   (AcceptedX1 == NewX; AcceptedX2 == NewX),
   AcceptedY == NewY.
+
+checkPieceMove(bq, X, Y, NewX, NewY):-
+  %write('checkMove bp'),nl,
+  AcceptedX1 is X-1, AcceptedX2 is X+1,
+  AcceptedY1 is Y-1, AcceptedY2 is Y+1,
+  (AcceptedX1 == NewX; AcceptedX2 == NewX),
+  (AcceptedY1 == NewY; AcceptedY2 == NewY).
+checkPieceMove(bq, X, Y, _, _):- !.
+
+checkPieceMove(wq, X, Y, NewX, NewY):-
+%write('checkMove bp'),nl,
+AcceptedX1 is X-1, AcceptedX2 is X+1,
+AcceptedY1 is Y-1, AcceptedY2 is Y+1,
+(AcceptedX1 == NewX; AcceptedX2 == NewX),
+(AcceptedY1 == NewY; AcceptedY2 == NewY).
+checkPieceMove(wq, X, Y, _, _):- !.

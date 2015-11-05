@@ -28,4 +28,3 @@ allowedPlay(white, wq).
 checkPlay(Player, X, Y, NewX, NewY):-
 	allowedPlay(Player, X, Y),
 	(checkEat(X, Y, _, _, NewX, NewY);checkMove(X, Y, NewX, NewY)).
-

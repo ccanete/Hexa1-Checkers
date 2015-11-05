@@ -7,51 +7,90 @@
 ?- ['actions/eat.pl'].
 ?- ['actions/move.pl'].
 ?- ['helpers/drawBoard.pl'].
-?- ['helpers/pieceFacts.pl'].
 ?- ['helpers/rules.pl'].
 ?- ['helpers/turn.pl'].
 ?- ['helpers/util.pl'].
 ?- ['ia/helpersIA.pl'].
 ?- ['ia/randomIA.pl'].
 ?- ['ia/IALevelUno.pl'].
-?- ['ia/worthToMove.pl'].
+?- ['ia/minimaxIA.pl'].
+%?- ['ia/worthToMove.pl'].
 
-%% Set IA %%
-setIA(0) :-
-    b_setval(iaChoice, randomIA).
-setIA(1) :-
-    b_setval(iaChoice, level1).
+?- set_prolog_stack(global, limit(1*10**9)). % 1GB max global stack size
+?- set_prolog_stack(local, limit(1*10**9)). % 1GB max local stack size
+
+%% Set Players %%
+setPlayer(PlayerNumber, 0) :-
+    b_setval(PlayerNumber, human).
+setPlayer(PlayerNumber, 1) :-
+    b_setval(PlayerNumber, randomIA).
+setPlayer(PlayerNumber, 2) :-
+    b_setval(PlayerNumber, minmax).
+setPlayer(PlayerNumber, 3) :-
+    b_setval(PlayerNumber, alphabeta).
+setPlayer(PlayerNumber, 4) :-
+    b_setval(PlayerNumber, heristic).
+
+%% Functions to set the IA level %%
+getPlayer(Player, Number):-
+  nl,write('Please choose the Player '), write(Number), write(" : "), nl,
+	displayPlayers,
+	read(Player),
+  checkPlayerLevel(Player).
+getPlayer(Level):-
+  nl,write('Sorry, this Player does not exist.'),nl,
+  getPlayer(Level).
+
+checkPlayerLevel(Player):-
+	between(0, 4, Player).
+
+displayPlayers:-
+	write('Player 0: Human'),nl,
+	write('Player 1: Random AI'),nl,
+	write('Player 2: Minmax AI'),nl,
+	write('Player 3: AlphaBeta AI'),nl.
+
+nextPlayerTurn(1, 2, NextPlayer):-
+  b_getval(player2, NextPlayer).
+nextPlayerTurn(2, 1, NextPlayer):-
+  b_getval(player1, NextPlayer).
 
 playCheckers:-
-  getIALevel(Level),
-  setIA(Level),
+  getPlayer(Player1, 1),
+  setPlayer(player1, Player1),
+  getPlayer(Player2, 2),
+  setPlayer(player2, Player2),
+  setState(board),
   initBoard,
   printBoard,
-  play(white, human).
+  b_getval(player1, Player),
+  play(white, 1, Player).
 
-play(Player, human):-
+play(Color, Number, human):-
   continuePlaying,
-  nl, write('Player '), write(Player), write(' plays.'),nl,
+  nl, write('Player '), write(Number), write(" human"), write(' plays the '), write(Color),nl,
   userMove(X,Y,NewX,NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
-  processTurn(Player, X, Y, NewX, NewY),
-  zombieToEmpty,
+  processTurn(Color, X, Y, NewX, NewY),
   nl, printBoard,
-  nextPlayer(Player, NextPlayer),
-  play(NextPlayer, ia).
-play(Player, ia):-
-  b_getval(iaChoice, IAChoice),
+  nextPlayer(Color, NextColor),
+  nextPlayerTurn(Number, NextNumber, NextPlayer),
+  play(NextColor, NextNumber, NextPlayer).
+
+play(Color, Number, Player):-
   continuePlaying,
-  nl, write('Player '), write(IAChoice), write(' plays.'),nl,
-  iaMove(IAChoice, Player, X, Y, NewX, NewY),
+  nl, write('Player '), write(Number), write(" "), write(Player), write(' plays the '), write(Color),nl,
+  iaMove(Player, Color, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
-  processTurn(Player, X, Y, NewX, NewY),
-  zombieToEmpty,
+  processTurn(Color, X, Y, NewX, NewY),
   nl, printBoard,
-  nextPlayer(Player, NextPlayer),
-  play(NextPlayer, human).
-play(Player, _):-
+  nextPlayer(Color, NextColor),
+  nextPlayerTurn(Number, NextNumber, NextPlayer),
+  play(NextColor, NextNumber, NextPlayer).
+
+play(_, _, _):-
   %GameOver for a player
   not(continuePlaying),
-  %TODO: Find who has won
-  write('GameOver').
+  %getWinner(Winner),
+  write('GameOver'),nl.
+  %write(Winner), write(" wins! Congratulations!").

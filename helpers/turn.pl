@@ -21,10 +21,13 @@ initBoard :-
 % First, we try to eat, if not possible, we try to move
 processTurn(Player, X, Y, NewX, NewY):-
   doEat(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).
+  doQueen(NewX, NewY),
+  zombieToEmpty.
 processTurn(Player, X, Y, NewX, NewY):-
   doMove(X, Y, NewX, NewY),
-  doQueen(NewX, NewY).
+  doQueen(NewX, NewY),
+  zombieToEmpty.
+processTurn(_,_,_,_,_):- !.
 
 userMove(X,Y,NewX,NewY):-
   getUserMove(X,Y,NewX,NewY),
@@ -48,12 +51,33 @@ getUserMove(X,Y,NewX,NewY):-
 nextPlayer(white,black).
 nextPlayer(black, white).
 
+% Replace all of the zombies pieces to empties at the end of any game turn
+zombieToEmpty:-
+  getBoard(Board),
+  nth0(Pos, Board, zb),
+  replace(Board, Pos, em, NewBoard),
+  setBoard(NewBoard),
+  zombieToEmpty.
+zombieToEmpty.
+
 % Check if a player has won
 continuePlaying:-
-  b_getval(board, Board),
+  getBoard(Board),
   continuePlaying(Board, white),
   continuePlaying(Board, black).
 continuePlaying(Board, white):-
   member(wp, Board),!;member(wq, Board),!.
 continuePlaying(Board, black):-
   member(bp, Board),!;member(bq, Board),!.
+
+% Check if a player has won
+getWinner(Winner):-
+  getBoard(Board),
+  getWinner(Board, white, Winner),
+  getWinner(Board, black, Winner).
+getWinner(Board, white, black):-
+  not(member(wp, Board)),
+  not(member(wq, Board)).
+getWinner(Board, black, white):-
+  not(member(bp, Board)),
+  not(member(bq, Board)).

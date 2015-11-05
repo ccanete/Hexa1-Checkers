@@ -1,4 +1,5 @@
 testCheckMove:-
+  setState(board),
   initBoard,
   printBoard,
   %% test eat and move
@@ -31,3 +32,52 @@ testCheckMove:-
   not(checkMove(8, 2, 7, 4)),
   write('OK'),nl,
   write('--- Test Move Completed ---'),nl.
+
+/***************************
+      TEST MOVE QUEEN
+***************************/
+
+testCheckMoveQueen :-
+  setState(board),
+  initBoard,
+  %% Prepare board for tests
+  processTurn(white, 2, 4, 3, 5),
+  processTurn(white, 4, 4, 5, 5),
+  processTurn(white, 3, 5, 2, 6),
+  processTurn(white, 5, 5, 4, 6),
+
+  processTurn(black, 1, 7, 3, 5),
+  processTurn(black, 3, 7, 5, 5),
+  
+  processTurn(white, 1, 3, 2, 4),
+  processTurn(black, 3, 5, 1, 3),
+  processTurn(white, 3, 3, 2, 4),
+  processTurn(white, 4, 2, 3, 3),
+  processTurn(white, 3, 1, 4, 2),
+  processTurn(black, 1, 3, 3, 1), % black queen
+
+  processTurn(white, 2, 4, 1, 5),
+  processTurn(white, 3, 3, 2, 4),
+  processTurn(white, 4, 2, 3, 3),
+  processTurn(white, 5, 3, 4, 4),
+  processTurn(white, 6, 4, 4, 6),
+  printBoard,
+  % Board ready for queen moves tests
+  checkMove(3, 1, 2, 2),
+  write('OK'),nl,
+  processTurn(black, 3, 1, 4, 2),
+  processTurn(black, 4, 2, 5, 3),
+  processTurn(black, 5, 3, 3, 5),
+  processTurn(black, 3, 5, 2, 6),
+  processTurn(black, 2, 6, 1, 7),
+  checkMove(1, 7, 5, 3),
+  write('OK'),nl,
+  printBoard,
+  processTurn(black,1, 7, 5, 3),
+  printBoard,
+
+  processTurn(white, 3, 3, 4, 4),
+  processTurn(white, 1, 5, 2, 6),
+  processTurn(black,5, 7, 4, 6),
+
+  printBoard.
