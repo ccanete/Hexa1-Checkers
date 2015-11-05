@@ -14,6 +14,7 @@
 ?- ['ia/randomIA.pl'].
 ?- ['ia/IALevelUno.pl'].
 ?- ['ia/minimaxIA.pl'].
+?- ['ia/alphabetaIA.pl'].
 %?- ['ia/worthToMove.pl'].
 
 ?- set_prolog_stack(global, limit(1*10**9)). % 1GB max global stack size
