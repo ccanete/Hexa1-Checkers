@@ -20,6 +20,7 @@
 ?- ['ia/worthToMove.pl'].
 ?- ['ia/IALevelUno.pl'].
 ?- ['ia/minimaxIA.pl'].
+?- ['ia/alphabetaIA.pl'].
 
 ?- ['tests/test-move.pl'].
 ?- ['tests/test-util.pl'].
