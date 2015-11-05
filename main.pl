@@ -16,6 +16,9 @@
 ?- ['ia/minimaxIA.pl'].
 %?- ['ia/worthToMove.pl'].
 
+?- set_prolog_stack(global, limit(1*10**9)). % 1GB max global stack size
+?- set_prolog_stack(local, limit(1*10**9)). % 1GB max local stack size
+
 %% Set IA %%
 setIA(0) :-
     b_setval(iaChoice, randomIA).
@@ -30,7 +33,7 @@ playCheckers:-
   setState(board),
   initBoard,
   printBoard,
-  play(white, minmax).
+  play(white, alphabeta).
 
 play(Player, human):-
   continuePlaying,
@@ -42,12 +45,22 @@ play(Player, human):-
   nextPlayer(Player, NextPlayer),
   play(NextPlayer, minmax).
 
+play(Player, alphabeta):-
+  %b_getval(iaChoice, IAChoice),
+  continuePlaying,
+  nl, write('Player '), write("alphabeta"), write(' plays.'),nl,
+  iaMove(minmax, Player, X, Y, NewX, NewY),
+  nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
+  processTurn(Player, X, Y, NewX, NewY),
+  nl, printBoard,
+  nextPlayer(Player, NextPlayer),
+  play(NextPlayer, randomIA).
 
 play(Player, minmax):-
   %b_getval(iaChoice, IAChoice),
   continuePlaying,
-  nl, write('Player '), write("minmax"), write(' plays the .'), write(Player), nl,
-  iaMove(minmax, Player, X, Y, NewX, NewY),
+  nl, write('Player '), write("alphabeta"), write(' plays the .'), write(Player), nl,
+  iaMove(alphabeta, Player, X, Y, NewX, NewY),
   nl, write('Move: ('), write(X), write(', '), write(Y), write(') to ('), write(NewX), write(' , '), write(NewY), write(').'),nl,
   processTurn(Player, X, Y, NewX, NewY),
   nl, printBoard,
@@ -63,7 +76,7 @@ play(Player, randomIA):-
   processTurn(Player, X, Y, NewX, NewY),
   nl, printBoard,
   nextPlayer(Player, NextPlayer),
-  play(NextPlayer, minmax).
+  play(NextPlayer, alphabeta).
 
 play(Player, _):-
   %GameOver for a player
