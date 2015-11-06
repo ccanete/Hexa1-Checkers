@@ -13,6 +13,12 @@ Pour vérifier la possiblité de manger une pièce, j'ai divisé la fonction pri
 
 >>>> Fonctional examples: 
 
+
+consult("worthToPlay.pl").
+
+>> For heuristicIA:
+setState(board), setBoard([wp,nl,wp,nl,em,nl,em,nl,em,nl,nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,wp,nl,wp,nl,em,nl,wp,nl,wp,nl,nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,em,nl,em,nl,em,nl,em,nl,em,nl,nl,em,nl,em,nl,em,nl,em,nl,em,bq,nl,bp,nl,bp,nl,bp,nl,bp,nl,nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,nl,bp,nl,bp,nl,bp,nl,bp,nl,bp]), heuristicIA(black, X, Y, NewX, NewY, DegraredRequiredR, RBranch).
+
 >> For doEat
 
 doEat([wp,nl,wp,nl,wp,nl,wp,nl,wp,nl,nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,wp,nl,wp,nl,em,nl,wp,nl,wp,nl,nl,wp,nl,wp,nl,wp,nl,wp,nl,wp,em,nl,em,nl,em,nl,em,nl,em,nl,nl,em,nl,em,nl,em,nl,em,nl,em,bq,nl,bp,nl,bp,nl,bp,nl,bp,nl,nl,bp,nl,bp,nl,bp,nl,bp,nl,bp,bp,nl,bp,nl,bp,nl,bp,nl,bp,nl,nl,bp,nl,bp,nl,bp,nl,bp,nl,bp], PosX, PosY, NewPosX, NewPosY, NewBoard).

@@ -35,6 +35,8 @@ simulateMoveFromList(Player, [[X, Y, NewX, NewY]|Tail]):-
 %% Match the IA method
 iaMove(randomIA, Player, X, Y, NewX, NewY):-
 	randomIA(Player, X, Y, NewX, NewY).
+iaMove(heuristicIA, Player, X, Y, NewX, NewY):-
+	heuristicIA(Player, X, Y, NewX, NewY, DegraredRequiredR, RBranch).
 iaMove(level1, Player, X, Y, NewX, NewY):-
 	levelUnoAI(Player, X, Y, NewX, NewY).
 iaMove(minmax, Player, X, Y, NewX, NewY):-
