@@ -81,9 +81,8 @@ play(Color, Number, Player):-
 play(_, _, _):-
   %GameOver for a player
   not(continuePlaying),
-  %getWinner(Winner),
-  write('GameOver'),nl.
-  %write(Winner), write(" wins! Congratulations!").
+  getWinner(Winner),
+  write(Winner), write(" wins! Congratulations!").
 
 getPlayerMove(human, _, X, Y, NewX, NewY):-
   userMove(X,Y,NewX,NewY).
