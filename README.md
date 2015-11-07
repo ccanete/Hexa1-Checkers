@@ -20,14 +20,9 @@ cd Hexa1-Checkers
 Usage
 -----
 
-### Run the match
+### Run the game
 
-Open a swipl:
-```shell
-swipl
-```
-
-Call the main file
+Open SWI and call the main file  
 ```prolog
 ?- ['///main.pl'].
 ```
@@ -39,7 +34,7 @@ And follow instructions
 
 ### Run the tests
 
-Just do:
+Open SWI and call the tests file  
 ```prolog
 ?- ['///tests.pl'].
 ```
