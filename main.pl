@@ -19,43 +19,6 @@
 ?- set_prolog_stack(global, limit(1*10**9)). % 1GB max global stack size
 ?- set_prolog_stack(local, limit(1*10**9)). % 1GB max local stack size
 
-%% Set Players %%
-setPlayer(PlayerNumber, 0) :-
-    b_setval(PlayerNumber, human).
-setPlayer(PlayerNumber, 1) :-
-    b_setval(PlayerNumber, randomIA).
-setPlayer(PlayerNumber, 2) :-
-    b_setval(PlayerNumber, minmax).
-setPlayer(PlayerNumber, 3) :-
-    b_setval(PlayerNumber, alphabeta).
-setPlayer(PlayerNumber, 4) :-
-    b_setval(PlayerNumber, heuristic).
-
-%% Functions to set the IA level %%
-getPlayer(Player, Number):-
-  nl,write('Please choose the Player '), write(Number), write(" : "), nl,
-	displayPlayers,
-	read(Player),
-  checkPlayerLevel(Player).
-getPlayer(Level):-
-  nl,write('Sorry, this Player does not exist.'),nl,
-  getPlayer(Level).
-
-checkPlayerLevel(Player):-
-	between(0, 4, Player).
-
-displayPlayers:-
-	write('Player 0: Human'),nl,
-	write('Player 1: Random AI'),nl,
-	write('Player 2: Minmax AI'),nl,
-	write('Player 3: AlphaBeta AI'),nl,
-  write('Player 4: Heuristic AI'),nl.
-
-nextPlayerTurn(1, 2, NextPlayer):-
-  b_getval(player2, NextPlayer).
-nextPlayerTurn(2, 1, NextPlayer):-
-  b_getval(player1, NextPlayer).
-
 playCheckers:-
   getPlayer(Player1, 1),
   setPlayer(player1, Player1),
@@ -83,9 +46,3 @@ play(_, _, _):-
   not(continuePlaying),
   getWinner(Winner),
   write(Winner), write(" wins! Congratulations!").
-
-getPlayerMove(human, _, X, Y, NewX, NewY):-
-  userMove(X,Y,NewX,NewY).
-
-getPlayerMove(IAPlayer, Color, X, Y, NewX, NewY):-
-  iaMove(IAPlayer, Color, X, Y, NewX, NewY).
